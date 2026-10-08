@@ -45,4 +45,26 @@ jobs:
           path: dist
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v4      - name: Verify public Pages deployment
+        shell: bash
+        run: |
+          set -euo pipefail
+          URL="https://munomono.github.io/ddr-timeline/"
+          echo "Checking ${URL}"
+          for attempt in 1 2 3 4 5 6; do
+            if curl --fail --location --silent --show-error "${URL}" -o /tmp/ddr-index.html &&
+               grep -q 'id="root"' /tmp/ddr-index.html &&
+               grep -q '/ddr-timeline/assets/' /tmp/ddr-index.html; then
+              echo "GitHub Pages shell and bundled asset references are online."
+              break
+            fi
+            if [ "${attempt}" -eq 6 ]; then echo "GitHub Pages smoke test failed"; exit 1; fi
+            sleep 10
+          done
+          ASSET=$(grep -oE '/ddr-timeline/assets/index-[^"]+\.js' /tmp/ddr-index.html | head -n 1)
+          test -n "${ASSET}"
+          curl --fail --location --silent --show-error "https://munomono.github.io${ASSET}" -o /tmp/ddr-app.js
+          test -s /tmp/ddr-app.js
+          curl --fail --location --silent --show-error "${URL}data/agent_employment.json" -o /tmp/ddr-staff.json
+          node -e "const f=require('/tmp/ddr-staff.json'); if(!Array.isArray(f.agent_employment)||f.agent_employment.length<80)process.exit(1); console.log('Published employment records:',f.agent_employment.length)"
+          echo "PASS: public HTML, JS asset and archival data available."
