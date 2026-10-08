@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "npm run typecheck && vite build",
-    "lint": "eslint .",
+    "lint": "eslint . && node scripts/check-architecture.mjs",
     "typecheck": "tsc -b",
     "test": "vitest run",
     "test:e2e": "playwright test",
