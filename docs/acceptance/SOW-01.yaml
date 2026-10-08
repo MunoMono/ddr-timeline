@@ -1,7 +1,7 @@
 sow_id: SOW-01
 status: PASS
-release_commit: null
-validated_at_utc: "2026-10-08T10:22:10Z"
+release_commit: d7f0360ff09901efcb2bc631b1d53a99117b7a57
+validated_at_utc: "2026-10-08T10:26:48Z"
 reviewer: null
 checks:
   - id: S01-01
@@ -25,7 +25,6 @@ checks:
     evidence_path: docs/acceptance/SOW-01-validation.md
     notes: Setup docs, ADR, endpoint config, CI, and root/subpath base builds exist.
 residuals:
-  - Initial Pages deployment run failed because the Pages site was not yet enabled; retry after source selection is in progress.
   - GraphQL schema, endpoint CORS, and browser access belong to SOW-02 and are not yet verified.
   - Full WCAG 2.2 AA review belongs to SOW-04/SOW-05.
   - npm 11 skips unapproved IBM Carbon telemetry install scripts; builds and tests pass without them.
