@@ -1,18 +1,20 @@
 import { expect, test } from '@playwright/test'
-
-test('staff atlas loads source snapshot, filters, and works on mobile', async ({ page }) => {
-  const errors: string[] = []
-  page.on('pageerror', error => errors.push(error.message))
-  await page.route('https://api.ddrarchive.org/graphql', route => route.abort())
+test('immersive canvas renders sourced bands and accessible controls on mobile', async ({page}) => {
+  const errors:string[]=[]
+  page.on('pageerror',err=>errors.push(err.message))
+  await page.route('https://api.ddrarchive.org/graphql',route=>route.abort())
   await page.goto('/')
-  await expect(page.getByRole('heading', { name: /People in time/i })).toBeVisible()
-  await expect(page.getByText('Bruce Archer').first()).toBeVisible()
+  await expect(page.getByRole('heading',{name:/Working lives/i})).toBeVisible()
+  await expect(page.getByText('89')).toBeVisible()
+  await expect(page.locator('.interactive-band').first()).toBeVisible()
+  await page.getByRole('button',{name:'Zoom in'}).click()
+  await expect(page.getByText(/ZOOM 170%/)).toBeVisible()
+  await page.getByRole('button',{name:'Reset view'}).click()
   await page.getByRole('searchbox').fill('Janet Daley')
-  await expect(page.getByText('Janet Daley')).toBeVisible()
-  await expect(page.getByText('Bruce Archer')).toHaveCount(0)
-  await page.getByRole('button', { name: /Janet Daley/ }).click()
-  await expect(page.getByText(/PERSON RECORD · JANETDALEY/)).toBeVisible()
-  await page.setViewportSize({ width: 375, height: 812 })
-  expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false)
+  await expect(page.locator('.interactive-band')).toHaveCount(1)
+  await page.locator('.interactive-band').first().click()
+  await expect(page.getByRole('heading',{name:'Janet Daley'})).toBeVisible()
+  await page.setViewportSize({width:375,height:812})
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)).toBe(false)
   expect(errors).toEqual([])
 })
