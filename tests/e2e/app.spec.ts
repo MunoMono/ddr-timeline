@@ -11,7 +11,7 @@ test('staff atlas loads source snapshot, filters, and works on mobile', async ({
   await expect(page.getByText('Janet Daley')).toBeVisible()
   await expect(page.getByText('Bruce Archer')).toHaveCount(0)
   await page.getByRole('button', { name: /Janet Daley/ }).click()
-  await expect(page.getByText('JANETDALEY')).toBeVisible()
+  await expect(page.getByText(/PERSON RECORD · JANETDALEY/)).toBeVisible()
   await page.setViewportSize({ width: 375, height: 812 })
   expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false)
   expect(errors).toEqual([])
