@@ -15,6 +15,8 @@
 | `npm run build` | PASS; 917 modules transformed | Production bundle |
 | `npm run test:e2e` | PASS; 1 Chromium test | Desktop and 375x812 mobile; no horizontal overflow or page errors |
 | GitHub Pages subpath build | PASS; emitted asset URLs use `/ddr-timeline/assets/` | Build with `BASE_PATH=/ddr-timeline/` |
+| GitHub Actions CI, run 1 | PASS | [Workflow run](https://github.com/MunoMono/ddr-timeline/actions/runs/37761691067) |
+| GitHub Pages deployment, run 1 | BLOCKED | Pages site was not enabled when `configure-pages` ran; retry after source selection |
 
 Screenshots: [desktop](SOW-01-desktop.png) and [mobile](SOW-01-mobile.png).
 
