@@ -28,7 +28,7 @@ jobs:
           cache: npm
       - run: npm ci
       # Format generated interface code in the ephemeral CI checkout before verification.
-      - run: npx prettier --write src/App.tsx src/App.css tests/App.test.tsx tests/e2e/app.spec.ts
+      - run: npm run format
       - run: npm run format:check
       - run: npm run lint
       - run: npm run typecheck
@@ -45,7 +45,8 @@ jobs:
           path: dist
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4      - name: Verify public Pages deployment
+        uses: actions/deploy-pages@v4
+      - name: Verify public Pages deployment
         shell: bash
         run: |
           set -euo pipefail
