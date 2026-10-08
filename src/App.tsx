@@ -108,7 +108,7 @@ function InteractiveTimeline({
   const ticks = Array.from(
     { length: Math.ceil((MAX - MIN) / tickStep) + 1 },
     (_, i) => MIN + i * tickStep,
-  ).filter((y) => y <= MAX)
+  ).filter((y) => y <= 1985)
   useEffect(() => {
     if (!root.current || typeof ResizeObserver === 'undefined') return
     const ob = new ResizeObserver(([entry]) =>
@@ -231,7 +231,7 @@ function InteractiveTimeline({
         <div className="overview-top">
           <span>DEPARTMENT OF DESIGN RESEARCH / OVERVIEW</span>
           <span>
-            {Math.floor(overviewStart)} — {Math.ceil(overviewEnd)}
+            {Math.floor(overviewStart)} — {Math.min(1985, Math.ceil(overviewEnd))}
           </span>
         </div>
         <div className="minimap">
@@ -247,8 +247,8 @@ function InteractiveTimeline({
               key={d.person.staff_code}
               className="minimap-band"
               style={{
-                left: `${((d.start - MIN) / (MAX - MIN)) * 100}%`,
-                width: `${((d.end + 1 - d.start) / (MAX - MIN)) * 100}%`,
+                left: `${((Math.max(MIN, d.start) - MIN) / (MAX - MIN)) * 100}%`,
+                width: `${((Math.min(MAX, d.end + 1) - Math.max(MIN, d.start)) / (MAX - MIN)) * 100}%`,
                 top: `${13 + (d.lane % 7) * 9}%`,
                 background: palette[category(d.person.job_title_label)],
               }}
@@ -312,8 +312,8 @@ function InteractiveTimeline({
             />
           ))}
           {visible.map(({ person, lane, start, end }) => {
-            const x = scale(start),
-              right = scale(end + 1),
+            const x = scale(Math.max(start, MIN)),
+              right = scale(Math.min(end + 1, MAX)),
               w = Math.max(3, right - x),
               y = 75 + lane * laneH
             const isSelected = person.staff_code === selected?.staff_code
