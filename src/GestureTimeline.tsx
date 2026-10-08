@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { select, pointer, scaleLinear, axisTop, zoom, zoomIdentity, type ZoomTransform } from 'd3'
+import { select, pointer, scaleLinear, zoom, zoomIdentity, type ZoomTransform } from 'd3'
 import { Add, Subtract, Reset, PanHorizontal, Information } from '@carbon/icons-react'
 
 export type TimelinePerson = {
@@ -38,6 +38,7 @@ export default function GestureTimeline({ records, selected, onSelect, roleColor
     .filter(v => v >= START && v <= END + 1)
   useEffect(() => {
     if (!container.current) return
+    if (typeof ResizeObserver === 'undefined') return
     const obs = new ResizeObserver(entries => setWidth(Math.max(330, entries[0].contentRect.width)))
     obs.observe(container.current)
     return () => obs.disconnect()
@@ -69,9 +70,6 @@ export default function GestureTimeline({ records, selected, onSelect, roleColor
     if (!viewport.current || !zoomRef.current) return
     select(viewport.current).transition().duration(300).call(zoomRef.current.transform, zoomIdentity)
   }
-  // Retain D3's precise tick formatting; the gesture viewport and SVG share one rescaled coordinate system.
-  const axis = axisTop(x).tickValues(visibleYears).tickFormat(d => String(d))
-  void axis
   const showTooltip = (event: React.PointerEvent<SVGRectElement>, person: TimelinePerson) => {
     const root = container.current?.getBoundingClientRect()
     if (!root) return
@@ -112,13 +110,7 @@ export default function GestureTimeline({ records, selected, onSelect, roleColor
           })}
         </g>
       </svg>
-      <div className="gesture-overlay" aria-label="Gesture capture area for timeline" >
-        <svg className="gesture-capture" viewBox={`0 0 ${rightWidth} ${height}`} preserveAspectRatio="none">
-          <rect width={rightWidth} height={TOP} fill="transparent" pointerEvents="all"/>
-        </svg>
-      </div>
     </div>
-    <svg className="gesture-wheel-target" ref={undefined} aria-hidden="true" />
     {hover && <div className="gesture-tip" role="tooltip" style={{ left: Math.max(0,hover.x), top: hover.y }}>
       <strong>{hover.person.agent_name}</strong><span>{hover.person.job_title_label}</span>
       <b>{year(hover.person.start_date) ?? '?'} — {year(hover.person.end_date) ?? '?'}</b>
