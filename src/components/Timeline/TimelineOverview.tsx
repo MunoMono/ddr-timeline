@@ -1,6 +1,6 @@
-import { category, palette, MIN, MAX, type Staff } from '../../models/employment'
+import { category, palette, MIN, MAX } from '../../models/employment'
+import type { TimelineLane } from '../../utils/timeline'
 
-export type TimelineLane = { person: Staff; lane: number; start: number; end: number }
 
 export default function TimelineOverview({lanes,start,end}:{lanes:TimelineLane[];start:number;end:number}) {
   const percent=(date:number)=>((date-MIN)/(MAX-MIN))*1000
