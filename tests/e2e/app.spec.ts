@@ -5,7 +5,7 @@ test('immersive canvas renders sourced bands and accessible controls on mobile',
   await page.route('https://api.ddrarchive.org/graphql',route=>route.abort())
   await page.goto('/')
   await expect(page.getByRole('heading',{name:/Working lives/i})).toBeVisible()
-  await expect(page.getByText('89')).toBeVisible()
+  await expect(page.getByText('89', { exact: true })).toBeVisible()
   await expect(page.locator('.interactive-band').first()).toBeVisible()
   await page.getByRole('button',{name:'Zoom in'}).click()
   await expect(page.getByText(/ZOOM 170%/)).toBeVisible()
