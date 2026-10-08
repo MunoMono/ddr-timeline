@@ -1,0 +1,805 @@
+{
+  "agent_employment": [
+    {
+      "staff_code": "ALANBRUNSD",
+      "agent_name": "Alan Brunsdon",
+      "job_title_code": "RF",
+      "job_title_label": "Research Fellow",
+      "start_date": "1966-01-01",
+      "end_date": "1970-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "ALANKITCHI",
+      "agent_name": "Alan Kitchin",
+      "job_title_code": "RA2",
+      "job_title_label": "Research Associate",
+      "start_date": "1974-01-01",
+      "end_date": "1975-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "ALFONSOGOM",
+      "agent_name": "Alfonso Gomez",
+      "job_title_code": "RA2",
+      "job_title_label": "Research Associate",
+      "start_date": "1975-01-01",
+      "end_date": "1978-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "ANDREWGARN",
+      "agent_name": "Andrew Garnett",
+      "job_title_code": "RF",
+      "job_title_label": "Research Fellow",
+      "start_date": "1969-01-01",
+      "end_date": "1972-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "ANDREZEJKO",
+      "agent_name": "Andrezej Kociolek",
+      "job_title_code": "IRF",
+      "job_title_label": "ICL Research Fellow",
+      "start_date": "1971-01-01",
+      "end_date": "1974-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "ANTHONYSMA",
+      "agent_name": "Anthony Smallhom",
+      "job_title_code": "RA",
+      "job_title_label": "Research Assistant",
+      "start_date": "1965-01-01",
+      "end_date": "1966-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "ARLENEROSS",
+      "agent_name": "Arlene Ross",
+      "job_title_code": "SECRET",
+      "job_title_label": "Secretary",
+      "start_date": "1972-01-01",
+      "end_date": "1973-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "BERNARDMYE",
+      "agent_name": "Bernard Myers",
+      "job_title_code": "TD",
+      "job_title_label": "Tutor DEU",
+      "start_date": "1978-01-01",
+      "end_date": "1980-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "BRIANPENDR",
+      "agent_name": "Brian Pendry",
+      "job_title_code": "RF",
+      "job_title_label": "Research Fellow",
+      "start_date": "1969-01-01",
+      "end_date": "1970-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "BRIANREFFI",
+      "agent_name": "Brian Reffin-Smith",
+      "job_title_code": "RALCCT",
+      "job_title_label": "Research Associate, later College Computing tutor",
+      "start_date": "1977-01-01",
+      "end_date": "1985-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "BRIANWYVIL",
+      "agent_name": "Brian Wyvill",
+      "job_title_code": "CPLRF",
+      "job_title_label": "Computer programmer later Research Fellow",
+      "start_date": "1976-01-01",
+      "end_date": "1977-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "BRUCEARCHE",
+      "agent_name": "Bruce Archer",
+      "job_title_code": "RFLSRFAHODDLRLPAFDOR",
+      "job_title_label": "Research Fellow, later Senior Research Fellow and Head of Department Department, later Reader, later Professor and finally Director of Research",
+      "start_date": "1961-01-01",
+      "end_date": "1988-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "CHARLOTTED",
+      "agent_name": "Charlotte Dormandy",
+      "job_title_code": "DS",
+      "job_title_label": "Departmental Secretary",
+      "start_date": "1982-01-01",
+      "end_date": "1984-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "CHRISBURDE",
+      "agent_name": "Chris Burden",
+      "job_title_code": "SECRET",
+      "job_title_label": "Secretary",
+      "start_date": "1973-01-01",
+      "end_date": "1975-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "CHRISTINEM",
+      "agent_name": "Christine Matthieson",
+      "job_title_code": "RR",
+      "job_title_label": "Research Reflow",
+      "start_date": "1973-01-01",
+      "end_date": "1978-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "CHRISTOSLO",
+      "agent_name": "Christos Logothetis",
+      "job_title_code": "RA2",
+      "job_title_label": "Research Associate",
+      "start_date": "1976-01-01",
+      "end_date": "1978-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "CLAIRELUCI",
+      "agent_name": "Claire-Lucie Berge",
+      "job_title_code": "SECRET",
+      "job_title_label": "Secretary",
+      "start_date": "1971-01-01",
+      "end_date": "1972-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "CONSTANCEB",
+      "agent_name": "Constance Barrett",
+      "job_title_code": "SECRET",
+      "job_title_label": "Secretary",
+      "start_date": "1974-01-01",
+      "end_date": "1976-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "CRAIGJOHNS",
+      "agent_name": "Craig Johnson",
+      "job_title_code": "RADIS",
+      "job_title_label": "Research Associate (died in service 1977)",
+      "start_date": "1974-01-01",
+      "end_date": "1977-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "DEBORAHHAR",
+      "agent_name": "Deborah Hartley",
+      "job_title_code": "SECRET",
+      "job_title_label": "Secretary",
+      "start_date": "1981-01-01",
+      "end_date": "1982-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "DEIRDRELEN",
+      "agent_name": "Deirdre Lennon",
+      "job_title_code": "SECRET",
+      "job_title_label": "Secretary",
+      "start_date": "1973-01-01",
+      "end_date": "1974-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "DIANNEPRIM",
+      "agent_name": "Dianne Prime",
+      "job_title_code": "SECRET",
+      "job_title_label": "Secretary",
+      "start_date": "1969-01-01",
+      "end_date": "1971-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "DOREENNORT",
+      "agent_name": "Doreen Norton",
+      "job_title_code": "NRR",
+      "job_title_label": "Nursing Research Reflow",
+      "start_date": "1962-01-01",
+      "end_date": "1965-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "DOUGLASTOM",
+      "agent_name": "Douglas Tomkin",
+      "job_title_code": "RF",
+      "job_title_label": "Research Fellow",
+      "start_date": "1967-01-01",
+      "end_date": "1972-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "EDWARDHUDS",
+      "agent_name": "Edward Hudson",
+      "job_title_code": "RA2",
+      "job_title_label": "Research Associate",
+      "start_date": null,
+      "end_date": null,
+      "is_primary": true
+    },
+    {
+      "staff_code": "EILEENADAM",
+      "agent_name": "Eileen Adams",
+      "job_title_code": "RASFTACPALTDEU",
+      "job_title_label": "Research Associate seconded from Town and Country Planning Association, later Tutor, Design Education Unit",
+      "start_date": "1980-01-01",
+      "end_date": "1985-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "FIONNKENNE",
+      "agent_name": "Fionn Kennedy",
+      "job_title_code": "RF",
+      "job_title_label": "Research Fellow",
+      "start_date": "1967-01-01",
+      "end_date": "1968-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "GEORGEMALL",
+      "agent_name": "George Mallen",
+      "job_title_code": "RFLSRFADHODRAPLHOUCAU",
+      "job_title_label": "Research Feflow, later Senior Research Fellow and Deputy Head of Department (Research and Practice), later Head of Unit, Computing Activities Unit",
+      "start_date": "1971-01-01",
+      "end_date": "1983-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "GEORGEWEBE",
+      "agent_name": "George Weber",
+      "job_title_code": "RASFDOH",
+      "job_title_label": "Research Associate (seconded from Department of Health)",
+      "start_date": "1973-01-01",
+      "end_date": "1974-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "GILLIANPAT",
+      "agent_name": "Gillian Patterson",
+      "job_title_code": "SLIROLRF",
+      "job_title_label": "Secretary, later information Research Officer, later Research Fellow",
+      "start_date": "1961-01-01",
+      "end_date": "1988-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "HELENWIGNA",
+      "agent_name": "Helen Wignall",
+      "job_title_code": "SLRA",
+      "job_title_label": "Secretary, later Research Assistant",
+      "start_date": "1969-01-01",
+      "end_date": "1971-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "HENRIETTAR",
+      "agent_name": "Henrietta Ryott",
+      "job_title_code": "DSRP",
+      "job_title_label": "Departmental Secretary (Research & Practice)",
+      "start_date": "1973-01-01",
+      "end_date": "1977-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "HILARYONLE",
+      "agent_name": "Hilary Onley-Wilde",
+      "job_title_code": "SECRET",
+      "job_title_label": "Secretary",
+      "start_date": "1966-01-01",
+      "end_date": "1972-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "JANECOWARD",
+      "agent_name": "Jane Coward",
+      "job_title_code": "SECRET",
+      "job_title_label": "Secretary",
+      "start_date": "1966-01-01",
+      "end_date": "1969-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "JANETDALEY",
+      "agent_name": "Janet Daley",
+      "job_title_code": "TUTOR",
+      "job_title_label": "Tutor",
+      "start_date": "1977-01-01",
+      "end_date": "1988-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "JANEVOLLER",
+      "agent_name": "Jane Voller",
+      "job_title_code": "SECRET",
+      "job_title_label": "Secretary",
+      "start_date": "1975-01-01",
+      "end_date": "1976-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "JENNIFERHA",
+      "agent_name": "Jennifer Hall",
+      "job_title_code": "RA",
+      "job_title_label": "Research Assistant",
+      "start_date": "1966-01-01",
+      "end_date": "1968-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "JIMSINGHSA",
+      "agent_name": "Jim Singh-Sandhu",
+      "job_title_code": "RA2",
+      "job_title_label": "Research Associate",
+      "start_date": "1969-01-01",
+      "end_date": "1971-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "JOHNCHALME",
+      "agent_name": "John Chalmeers",
+      "job_title_code": "RASFD",
+      "job_title_label": "Research Associate (seconded from DoE?)",
+      "start_date": "1971-01-01",
+      "end_date": "1975-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "JOHNHARAHA",
+      "agent_name": "John Harahan",
+      "job_title_code": "RA2",
+      "job_title_label": "Research Associate",
+      "start_date": null,
+      "end_date": null,
+      "is_primary": true
+    },
+    {
+      "staff_code": "JOHNHUGHES",
+      "agent_name": "John Hughes",
+      "job_title_code": "RF",
+      "job_title_label": "Research Fellow",
+      "start_date": "1972-01-01",
+      "end_date": "1974-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "JOHNLANSDO",
+      "agent_name": "John Lansdown",
+      "job_title_code": "ASRF",
+      "job_title_label": "Associate Senior Research Fellow",
+      "start_date": "1975-01-01",
+      "end_date": "1983-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "JOHNLIFTON",
+      "agent_name": "John Lifton-Zoline",
+      "job_title_code": "RR",
+      "job_title_label": "Research Reflow",
+      "start_date": "1975-01-01",
+      "end_date": "1977-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "JOHNOATES",
+      "agent_name": "John Oates",
+      "job_title_code": "JRRLRR",
+      "job_title_label": "Junior Research Reflow, later Research Reflow",
+      "start_date": "1967-01-01",
+      "end_date": "1970-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "JOHNWOOD",
+      "agent_name": "John Wood",
+      "job_title_code": "RA",
+      "job_title_label": "Research Assistant",
+      "start_date": "1969-01-01",
+      "end_date": "1977-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "JOSEPHARMS",
+      "agent_name": "Joseph Armstrong",
+      "job_title_code": "TECHNI",
+      "job_title_label": "Technician",
+      "start_date": "1966-01-01",
+      "end_date": "1970-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "JUDITHALLI",
+      "agent_name": "Judith Allison",
+      "job_title_code": "SECRET",
+      "job_title_label": "Secretary",
+      "start_date": "1972-01-01",
+      "end_date": "1973-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "JUDITHOATE",
+      "agent_name": "Judith Oates",
+      "job_title_code": "RA",
+      "job_title_label": "Research Assistant",
+      "start_date": null,
+      "end_date": null,
+      "is_primary": true
+    },
+    {
+      "staff_code": "JUNERICHAR",
+      "agent_name": "June Richards",
+      "job_title_code": "SECRET",
+      "job_title_label": "Secretary",
+      "start_date": "1973-01-01",
+      "end_date": "1974-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "KARLACHIMC",
+      "agent_name": "Karl-Achim Czemper",
+      "job_title_code": "RF",
+      "job_title_label": "Research Fellow",
+      "start_date": "1967-01-01",
+      "end_date": "1970-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "KENNETHAGN",
+      "agent_name": "Kenneth Agnew",
+      "job_title_code": "RFLSRFADHOD",
+      "job_title_label": "Research Fellow, later Senior Research Fellow and Deputy Head of Department",
+      "start_date": "1961-01-01",
+      "end_date": "1978-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "KENNETHBAY",
+      "agent_name": "Kenneth Baynes",
+      "job_title_code": "RFLTDLHODD",
+      "job_title_label": "Research Fellow/later Tutor DEU later Head of Department DEU",
+      "start_date": "1976-01-01",
+      "end_date": "1985-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "KENNETHCLA",
+      "agent_name": "Kenneth Claxton",
+      "job_title_code": "RF",
+      "job_title_label": "Research Fellow",
+      "start_date": "1966-01-01",
+      "end_date": "1968-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "KENNETHSAD",
+      "agent_name": "Kenneth Sadler",
+      "job_title_code": "RR",
+      "job_title_label": "Research Reflow",
+      "start_date": "1967-01-01",
+      "end_date": "1970-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "LINTAN",
+      "agent_name": "Lin Tan",
+      "job_title_code": "RA2",
+      "job_title_label": "Research Associate",
+      "start_date": "1973-01-01",
+      "end_date": "1975-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "LYNNELAMBE",
+      "agent_name": "Lynne Lambert",
+      "job_title_code": "SECRET",
+      "job_title_label": "Secretary",
+      "start_date": null,
+      "end_date": null,
+      "is_primary": true
+    },
+    {
+      "staff_code": "MARIETYLER",
+      "agent_name": "Marie Tyler",
+      "job_title_code": "DS",
+      "job_title_label": "Departmental Secretary",
+      "start_date": "1978-01-01",
+      "end_date": "1980-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "MARILYNPET",
+      "agent_name": "Marilyn Pettit",
+      "job_title_code": "DST",
+      "job_title_label": "Departmental Secretary (Teaching)",
+      "start_date": "1974-01-01",
+      "end_date": "1978-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "MARTHAGIBB",
+      "agent_name": "Martha Gibbons",
+      "job_title_code": "SECRET",
+      "job_title_label": "Secretary",
+      "start_date": null,
+      "end_date": null,
+      "is_primary": true
+    },
+    {
+      "staff_code": "MARTINHAZE",
+      "agent_name": "Martin Hazell",
+      "job_title_code": "RA2",
+      "job_title_label": "Research Associate",
+      "start_date": "1976-01-01",
+      "end_date": "1978-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "MAUREENELL",
+      "agent_name": "Maureen Ellen",
+      "job_title_code": "SECRET2",
+      "job_title_label": "Secretary **",
+      "start_date": "1972-01-01",
+      "end_date": "1973-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "MCNEIL",
+      "agent_name": "?? McNeil",
+      "job_title_code": "SECRET",
+      "job_title_label": "Secretary",
+      "start_date": "1968-01-01",
+      "end_date": "1970-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "MICHELLARU",
+      "agent_name": "Michel La Rue",
+      "job_title_code": "RF",
+      "job_title_label": "Research Fellow",
+      "start_date": "1966-01-01",
+      "end_date": "1968-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "NATASHASPE",
+      "agent_name": "Natasha Spender",
+      "job_title_code": "TUTOR",
+      "job_title_label": "Tutor",
+      "start_date": "1971-01-01",
+      "end_date": "1984-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "PAMELAROGE",
+      "agent_name": "Pamela Rogers",
+      "job_title_code": "RR",
+      "job_title_label": "Research Reflow",
+      "start_date": "1970-01-01",
+      "end_date": "1974-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "PATRICIARO",
+      "agent_name": "Patricia Ross",
+      "job_title_code": "RA2",
+      "job_title_label": "Research Associate",
+      "start_date": null,
+      "end_date": null,
+      "is_primary": true
+    },
+    {
+      "staff_code": "PATRICKDON",
+      "agent_name": "Patrick Donald",
+      "job_title_code": "TECHNI",
+      "job_title_label": "Technician",
+      "start_date": "1973-01-01",
+      "end_date": "1980-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "PATRICKPUR",
+      "agent_name": "Patrick Purcell",
+      "job_title_code": "RRLSRF",
+      "job_title_label": "Research Reflow, later Senior Research Fellow",
+      "start_date": "1965-01-01",
+      "end_date": "1982-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "PAULINEBEN",
+      "agent_name": "Pauline Benington",
+      "job_title_code": "SECRET",
+      "job_title_label": "Secretary",
+      "start_date": "1965-01-01",
+      "end_date": "1969-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "PETERSAMPS",
+      "agent_name": "Peter Sampson",
+      "job_title_code": "RR",
+      "job_title_label": "Research Reflow",
+      "start_date": "1972-01-01",
+      "end_date": "1976-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "PETERSLANN",
+      "agent_name": "Peter Slann",
+      "job_title_code": "RASFIC",
+      "job_title_label": "Research Associate (seconded from Imperial College)",
+      "start_date": "1965-01-01",
+      "end_date": "1968-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "PHILLIPROB",
+      "agent_name": "Phillip Roberts",
+      "job_title_code": "TD",
+      "job_title_label": "Tutor DEU",
+      "start_date": "1978-01-01",
+      "end_date": "1987-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "PIERREGOUM",
+      "agent_name": "Pierre Goumain",
+      "job_title_code": "RF",
+      "job_title_label": "Research Fellow",
+      "start_date": "1972-01-01",
+      "end_date": "1982-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "REGTALBOT",
+      "agent_name": "Reg Talbot",
+      "job_title_code": "RF",
+      "job_title_label": "Research Fellow",
+      "start_date": "1964-01-01",
+      "end_date": "1965-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "REINHARTBU",
+      "agent_name": "Reinhart Butter",
+      "job_title_code": "RA",
+      "job_title_label": "Research Assistant",
+      "start_date": "1961-01-01",
+      "end_date": "1962-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "RICHARDBAR",
+      "agent_name": "Richard Barnard",
+      "job_title_code": "TECHNI",
+      "job_title_label": "Technician",
+      "start_date": "1966-01-01",
+      "end_date": "1968-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "RICHARDLAN",
+      "agent_name": "Richard Langdon",
+      "job_title_code": "RFLSRFADHODTAFHODDIS",
+      "job_title_label": "Research Fellow, later Senior Research Fellow and Deputy Head of Department (Teaching), and finally Head of Department (died in service 1985)",
+      "start_date": "1967-01-01",
+      "end_date": "1985-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "ROGERHAYDO",
+      "agent_name": "Roger Haydon",
+      "job_title_code": "RF",
+      "job_title_label": "Research Fellow",
+      "start_date": "1970-01-01",
+      "end_date": "1971-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "SALLYHARVE",
+      "agent_name": "Sally Harvey",
+      "job_title_code": "SECRET",
+      "job_title_label": "Secretary",
+      "start_date": "1978-01-01",
+      "end_date": "1983-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "SALLYMCKIN",
+      "agent_name": "Sally McKinley",
+      "job_title_code": "DS",
+      "job_title_label": "Departmental Secretary",
+      "start_date": "1976-01-01",
+      "end_date": "1978-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "SALLYMILLS",
+      "agent_name": "Sally Mills",
+      "job_title_code": "SECRET",
+      "job_title_label": "Secretary",
+      "start_date": "1960-01-01",
+      "end_date": "1964-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "SALLYNEEDH",
+      "agent_name": "Sally Needham",
+      "job_title_code": "RAS",
+      "job_title_label": "Research Administration Secretary",
+      "start_date": "1976-01-01",
+      "end_date": "1978-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "SEBASTIANL",
+      "agent_name": "Sebastian Lera (later Macmillan)",
+      "job_title_code": "TUTOR",
+      "job_title_label": "Tutor",
+      "start_date": "1963-01-01",
+      "end_date": "1986-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "SPENCERCHI",
+      "agent_name": "Spencer Childs",
+      "job_title_code": "TECHNI",
+      "job_title_label": "Technician",
+      "start_date": "1979-01-01",
+      "end_date": "1985-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "STEPHENBAR",
+      "agent_name": "Stephen Bartlett",
+      "job_title_code": "RF",
+      "job_title_label": "Research Fellow",
+      "start_date": "1965-01-01",
+      "end_date": "1966-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "SUEJACKSON",
+      "agent_name": "Sue Jackson",
+      "job_title_code": "RA2",
+      "job_title_label": "Research Associate",
+      "start_date": "1974-01-01",
+      "end_date": "1975-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "TIMOTHYCOW",
+      "agent_name": "Timothy Coward",
+      "job_title_code": "RALRF",
+      "job_title_label": "Research Assistant, later Research Fellow",
+      "start_date": "1965-01-01",
+      "end_date": "1976-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "TRICIAHERB",
+      "agent_name": "Tricia Herbert (nee Sykes)",
+      "job_title_code": "RA2",
+      "job_title_label": "Research Associate",
+      "start_date": "1974-01-01",
+      "end_date": "1977-12-31",
+      "is_primary": true
+    },
+    {
+      "staff_code": "VALERIEALD",
+      "agent_name": "Valerie Alder",
+      "job_title_code": "SECRET",
+      "job_title_label": "Secretary",
+      "start_date": "1974-01-01",
+      "end_date": "1976-12-31",
+      "is_primary": true
+    }
+  ]
+}
