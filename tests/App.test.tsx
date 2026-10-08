@@ -1,13 +1,14 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import App from '../src/App'
-
-describe('DDR staff atlas', () => {
-  it('renders the staff exploration interface', () => {
+describe('DDR immersive temporal atlas', () => {
+  it('renders navigation and staff discovery tools', () => {
     render(<App />)
-    expect(screen.getByRole('heading', { name: /People in time/i })).toBeVisible()
-    expect(screen.getByRole('heading', { name: /Staff timelines/i })).toBeVisible()
+    expect(screen.getByRole('heading', { name: /People, in time/i })).toBeVisible()
+    expect(screen.getByRole('heading', { name: /Working lives/i })).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Zoom in' })).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Zoom out' })).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Reset view' })).toBeVisible()
     expect(screen.getByRole('searchbox')).toBeEnabled()
-    expect(screen.getByLabelText('ROLE FAMILY')).toBeEnabled()
   })
 })
