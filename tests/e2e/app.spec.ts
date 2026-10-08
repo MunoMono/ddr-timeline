@@ -1,28 +1,18 @@
 import { expect, test } from '@playwright/test'
 
-test('shell renders at desktop and mobile widths without overflow or browser errors', async ({
-  page,
-}) => {
-  const pageErrors: string[] = []
-  page.on('pageerror', (error) => pageErrors.push(error.message))
+test('staff atlas loads source snapshot, filters, and works on mobile', async ({ page }) => {
+  const errors: string[] = []
+  page.on('pageerror', error => errors.push(error.message))
+  await page.route('https://api.ddrarchive.org/graphql', route => route.abort())
   await page.goto('/')
-
-  await expect(page.getByRole('heading', { name: 'DDR timeline' })).toBeVisible()
-  await expect(page.getByText('No timeline records yet')).toBeVisible()
-  await expect(page.getByRole('searchbox', { name: 'Search records' })).toBeDisabled()
-
-  const desktopHasOverflow = await page.evaluate(
-    () => document.documentElement.scrollWidth > window.innerWidth,
-  )
-  expect(desktopHasOverflow).toBe(false)
-  await page.screenshot({ path: 'docs/acceptance/SOW-01-desktop.png', fullPage: true })
-
+  await expect(page.getByRole('heading', { name: /People in time/i })).toBeVisible()
+  await expect(page.getByText('Bruce Archer').first()).toBeVisible()
+  await page.getByRole('searchbox').fill('Janet Daley')
+  await expect(page.getByText('Janet Daley')).toBeVisible()
+  await expect(page.getByText('Bruce Archer')).toHaveCount(0)
+  await page.getByRole('button', { name: /Janet Daley/ }).click()
+  await expect(page.getByText('JANETDALEY')).toBeVisible()
   await page.setViewportSize({ width: 375, height: 812 })
-  const mobileHasOverflow = await page.evaluate(
-    () => document.documentElement.scrollWidth > window.innerWidth,
-  )
-
-  expect(mobileHasOverflow).toBe(false)
-  expect(pageErrors).toEqual([])
-  await page.screenshot({ path: 'docs/acceptance/SOW-01-mobile.png', fullPage: true })
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false)
+  expect(errors).toEqual([])
 })
