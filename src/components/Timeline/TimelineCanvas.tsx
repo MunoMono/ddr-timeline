@@ -6,6 +6,7 @@ import TimelineControls from './TimelineControls'
 import TimelineOverview from './TimelineOverview'
 import StaffDetails from '../Staff/StaffDetails'
 import { category, palette, MIN, MAX, year, type Staff } from '../../models/employment'
+import { packEmploymentLanes } from '../../utils/timeline'
 
 export default function InteractiveTimeline({
   people,
@@ -21,31 +22,7 @@ export default function InteractiveTimeline({
   const [hover, setHover] = useState<Staff | null>(null)
   const [cursor, setCursor] = useState<number | null>(null)
   const chartW = dimensions.w
-  const dated = people.filter(
-    (p) =>
-      year(p.start_date) !== null &&
-      year(p.end_date) !== null &&
-      year(p.start_date)! <= 1985 &&
-      year(p.end_date)! >= MIN,
-  )
-  const lanes = useMemo(() => {
-    const sorted = [...dated].sort(
-      (a, b) =>
-        (year(a.start_date) ?? 0) - (year(b.start_date) ?? 0) ||
-        a.agent_name.localeCompare(b.agent_name),
-    )
-    const ends: number[] = []
-    return sorted.map((person) => {
-      const start = year(person.start_date)!,
-        end = year(person.end_date)!
-      let lane = ends.findIndex((last) => last < start)
-      if (lane < 0) {
-        lane = ends.length
-        ends.push(end)
-      } else ends[lane] = end
-      return { person, lane, start, end }
-    })
-  }, [dated])
+  const lanes = useMemo(() => packEmploymentLanes(people), [people])
   const laneCount = Math.max(1, ...lanes.map((d) => d.lane + 1))
   const laneH = Math.max(27, Math.min(48, 450 / laneCount))
   const sceneH = Math.max(400, laneCount * laneH + 116)
