@@ -4,7 +4,9 @@ import App from '../src/App'
 describe('DDR immersive temporal atlas', () => {
   it('renders navigation and staff discovery tools', () => {
     render(<App />)
-    expect(screen.getByRole('heading', { name: /Department of Design Research timeline/i })).toBeVisible()
+    expect(
+      screen.getByRole('heading', { name: /Department of Design Research timeline/i }),
+    ).toBeVisible()
     expect(screen.getByRole('heading', { name: /Working lives/i })).toBeVisible()
     expect(screen.getByRole('button', { name: 'Zoom in' })).toBeVisible()
     expect(screen.getByRole('button', { name: 'Zoom out' })).toBeVisible()

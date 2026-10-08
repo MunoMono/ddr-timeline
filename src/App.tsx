@@ -78,7 +78,11 @@ function InteractiveTimeline({
     .copy()
     .range([left + view.x, left + view.x + (chartW - 22 - left) * view.k])
   const dated = people.filter(
-    (p) => year(p.start_date) !== null && year(p.end_date) !== null && year(p.start_date)! <= 1985 && year(p.end_date)! >= MIN,
+    (p) =>
+      year(p.start_date) !== null &&
+      year(p.end_date) !== null &&
+      year(p.start_date)! <= 1985 &&
+      year(p.end_date)! >= MIN,
   )
   const lanes = useMemo(() => {
     const sorted = [...dated].sort(
@@ -510,8 +514,17 @@ export default function App() {
   return (
     <div className="redesign">
       <header className="compact-header">
-        <div className="compact-heading"><span className="compact-kicker">RCA / DDR / 1965–1985</span><h1>Department of Design Research <span>timeline</span></h1></div>
-        <div className="compact-meta"><Tag type={source === 'LIVE GRAPHQL' ? 'green' : 'purple'}>{source}</Tag><strong>{people.length}</strong><span>STAFF ENTRIES</span></div>
+        <div className="compact-heading">
+          <span className="compact-kicker">RCA / DDR / 1965–1985</span>
+          <h1>
+            Department of Design Research <span>timeline</span>
+          </h1>
+        </div>
+        <div className="compact-meta">
+          <Tag type={source === 'LIVE GRAPHQL' ? 'green' : 'purple'}>{source}</Tag>
+          <strong>{people.length}</strong>
+          <span>STAFF ENTRIES</span>
+        </div>
       </header>
       <div className="filter-stripe">
         <div className="find">
