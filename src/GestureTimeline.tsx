@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { select, pointer, scaleLinear, zoom, zoomIdentity, type ZoomTransform } from 'd3'
 import { Add, Subtract, Reset, PanHorizontal, Information } from '@carbon/icons-react'
+import { Button, Tag } from '@carbon/react'
 
 export type TimelinePerson = {
   staff_code: string
@@ -78,13 +79,13 @@ export default function GestureTimeline({ records, selected, onSelect, roleColor
   }
   return <div className="gesture-atlas" ref={container}>
     <div className="gesture-toolbar">
-      <span className="gesture-label"><PanHorizontal size={16}/> DRAG TO TRAVEL THROUGH TIME <span className="gesture-sep">/</span> PINCH OR CTRL + SCROLL TO ZOOM</span>
+      <span className="gesture-label"><PanHorizontal size={16}/> DRAG TO TRAVEL THROUGH TIME <span className="gesture-sep">/</span> PINCH OR CTRL + SCROLL TO ZOOM <Tag type="blue">D3 ZOOM</Tag></span>
       <div className="gesture-buttons" role="group" aria-label="Timeline navigation">
         <button type="button" onClick={() => pan(90)} aria-label="Pan towards earlier years">←</button>
         <button type="button" onClick={() => pan(-90)} aria-label="Pan towards later years">→</button>
-        <button type="button" onClick={() => changeZoom(1.7)} aria-label="Zoom in"><Add size={18}/></button>
-        <button type="button" onClick={() => changeZoom(1/1.7)} aria-label="Zoom out"><Subtract size={18}/></button>
-        <button type="button" onClick={reset} aria-label="Reset timeline zoom"><Reset size={18}/></button>
+        <Button kind="ghost" size="sm" hasIconOnly iconDescription="Zoom in" renderIcon={Add} onClick={() => changeZoom(1.7)} />
+        <Button kind="ghost" size="sm" hasIconOnly iconDescription="Zoom out" renderIcon={Subtract} onClick={() => changeZoom(1/1.7)} />
+        <Button kind="ghost" size="sm" hasIconOnly iconDescription="Reset timeline zoom" renderIcon={Reset} onClick={reset} />
       </div>
     </div>
     <div className="gesture-viewport">
