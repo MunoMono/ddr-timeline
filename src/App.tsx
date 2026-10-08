@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import './App.css'
+import GestureTimeline from './GestureTimeline'
 
 type Employment = {
   staff_code: string
@@ -151,22 +152,7 @@ export default function App() {
           <button className="reset" type="button" onClick={() => { setQuery(''); setRole('All roles'); setSort('start'); setYear(null); setShowUnknown(true) }}>RESET ↗</button>
         </div>
         <div className="legend">{(Object.keys(colors) as Array<Exclude<Category,'All roles'>>).map(c => <button key={c} type="button" aria-pressed={role === c} onClick={() => setRole(role === c ? 'All roles' : c)}><i style={{ background: colors[c] }}/>{c}</button>)}<span className="legend-extra">{unknown} undated in current view</span></div>
-        <div className="timeline-table">
-          <div className="table-header"><span>NAME / DOCUMENTED ROLE</span><div className="ruler" aria-label="Years 1960 to 1989">{[1960,1965,1970,1975,1980,1985,1989].map(y => <span key={y} style={{ left: `${(y - START) / (END - START) * 100}%` }}>{y}</span>)}</div><span className="tenure-head">PERIOD</span></div>
-          {filtered.map(r => {
-            const a = parseYear(r.start_date), b = parseYear(r.end_date)
-            const known = a !== null && b !== null && b >= a
-            const group = roleGroup(r.job_title_label)
-            return <button type="button" key={r.staff_code} className={`staff-row ${selected === r.staff_code ? 'selected' : ''}`} onClick={() => setSelected(selected === r.staff_code ? null : r.staff_code)} aria-expanded={selected === r.staff_code}>
-              <span className="person"><strong>{r.agent_name}</strong><small>{r.job_title_label}</small></span>
-              <span className="time-track">{[1965,1970,1975,1980,1985].map(y => <i key={y} className="vertical-rule" style={{ left: `${(y - START) / (END - START) * 100}%` }}/>)}
-                {known ? <span className="tenure-bar" style={{ left: `${Math.max(0,(a-START)/(END-START)*100)}%`, width: `${Math.max(0.9,(Math.min(END,b)-Math.max(START,a)+0.8)/(END-START)*100)}%`, background: colors[group] }} /> : <span className="missing-dates">DATE UNKNOWN</span>}
-              </span><span className="tenure-text">{known ? `${a}—${b}` : '—'}<span className="row-arrow">{selected === r.staff_code ? '−' : '+'}</span></span>
-            </button>
-          })}
-          {source !== 'loading' && filtered.length === 0 && <div className="no-results">No matching records. Try clearing your filters.</div>}
-          {source === 'loading' && <div className="no-results">Loading recorded employment history…</div>}
-        </div>
+        <GestureTimeline records={filtered} selected={selected} onSelect={(id) => setSelected(selected === id ? null : id)} roleColor={(title) => colors[roleGroup(title)]} />
         {active && <div className="detail-panel" aria-live="polite"><button className="close-detail" type="button" onClick={() => setSelected(null)} aria-label="Close person details">✕</button><span className="eyebrow">03 / PERSON RECORD · {active.staff_code}</span><h3>{active.agent_name}</h3><p className="person-role">{active.job_title_label}</p><dl><div><dt>DOCUMENTED PERIOD</dt><dd>{duration(active)}</dd></div><div><dt>ROLE CODE</dt><dd>{active.job_title_code}</dd></div><div><dt>PRIMARY ENTRY</dt><dd>{active.is_primary ? 'Yes' : 'No'}</dd></div><div><dt>SOURCE</dt><dd>{source === 'live' ? 'DDR Archive GraphQL' : 'Researcher-supplied JSON extract'}</dd></div></dl><p className="evidence-note">These dates describe the span recorded in the dataset. They do not independently establish exact employment dates or when changes between successive roles occurred. Multi-stage job titles are preserved verbatim.</p></div>}
       </section>
       <footer className="foot"><div><strong>DDR / PEOPLE IN TIME</strong><p>Research interface · Royal College of Art design research history</p></div><div><p>{source === 'live' ? 'Source: live DDR GraphQL endpoint' : 'Source: supplied employment extract (offline fallback)'}</p><p>{error ? `Live API note: ${error}` : 'Source status verified in browser at load time.'}</p><p>Annual bins reflect recorded inclusive year ranges; missing dates remain unknown.</p></div></footer>
