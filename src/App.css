@@ -596,26 +596,62 @@ body,
   }
 }
 
-
 /* Typography audit: unify Carbon/IBM Plex with synthesis-and-mapping and
    coded-research-journal. No DM Sans, Inter or editorial serif exceptions. */
-.redesign, .redesign *, .redesign *::before, .redesign *::after {
+.redesign,
+.redesign *,
+.redesign *::before,
+.redesign *::after {
   font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
 }
-.redesign .eyebrow, .redesign .compact-kicker,
-.redesign .compact-meta, .redesign .overview-top,
-.redesign .minimap-labels, .redesign .nav-hint,
-.redesign .under-canvas, .redesign .filter-counter,
-.redesign .panel-grid small, .redesign .floating-tip span,
+.redesign .eyebrow,
+.redesign .compact-kicker,
+.redesign .compact-meta,
+.redesign .overview-top,
+.redesign .minimap-labels,
+.redesign .nav-hint,
+.redesign .under-canvas,
+.redesign .filter-counter,
+.redesign .panel-grid small,
+.redesign .floating-tip span,
 .redesign .floating-tip small {
   font-family: 'IBM Plex Mono', 'Courier New', monospace;
 }
-.redesign .explorer-top { padding: 6px clamp(18px,3vw,58px); justify-content: flex-end; }
-.redesign .navigation { gap: 0; flex-direction: row; align-items: center; }
-.redesign .nav-hint { margin-right: 14px; }
-.redesign .overview-top { margin: 4px 0 8px; }
-.redesign .filter-stripe .cds--search-input { color: #f4f4f4; }
-.redesign .filter-stripe .cds--search-input::placeholder { color: #c6c6c6; opacity: 1; }
-.redesign .filter-stripe .cds--search-magnifier { fill: #c6c6c6; }
-.redesign .filter-stripe .cds--label { color: #c6c6c6; }
-@media(max-width:650px){.redesign .navigation{align-items:flex-start;flex-wrap:wrap}.redesign .nav-hint{width:100%;margin:0 0 8px}}
+.redesign .explorer-top {
+  padding: 6px clamp(18px, 3vw, 58px);
+  justify-content: flex-end;
+}
+.redesign .navigation {
+  gap: 0;
+  flex-direction: row;
+  align-items: center;
+}
+.redesign .nav-hint {
+  margin-right: 14px;
+}
+.redesign .overview-top {
+  margin: 4px 0 8px;
+}
+.redesign .filter-stripe .cds--search-input {
+  color: #f4f4f4;
+}
+.redesign .filter-stripe .cds--search-input::placeholder {
+  color: #c6c6c6;
+  opacity: 1;
+}
+.redesign .filter-stripe .cds--search-magnifier {
+  fill: #c6c6c6;
+}
+.redesign .filter-stripe .cds--label {
+  color: #c6c6c6;
+}
+@media (max-width: 650px) {
+  .redesign .navigation {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .redesign .nav-hint {
+    width: 100%;
+    margin: 0 0 8px;
+  }
+}

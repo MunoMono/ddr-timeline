@@ -534,7 +534,9 @@ export default function App() {
             <SelectItem key={c} value={c} text={c} />
           ))}
         </Select>
-        <div className="filter-counter"><span>{filtered.length} MATCHES</span></div>
+        <div className="filter-counter">
+          <span>{filtered.length} MATCHES</span>
+        </div>
       </div>
       <InteractiveTimeline people={filtered} selected={selected} onSelect={setSelected} />
     </div>
