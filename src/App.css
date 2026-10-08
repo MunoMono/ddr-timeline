@@ -85,3 +85,29 @@ button,input,select {font:inherit}
 @media(max-width:900px){.insights{grid-template-columns:1fr;gap:35px}.masthead-right .edition{display:none}.hero h1{margin-top:45px}.table-header,.staff-row{grid-template-columns:minmax(150px,37%) minmax(160px,1fr) 88px;gap:9px}.detail-panel dl{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:620px){.masthead-right{font-size:9px}.wordmark>span:last-child{display:none}.hero-top>span:last-child{display:none}.hero-bottom{align-items:start;flex-direction:column}.hero h1{font-size:clamp(58px,13vw,110px)}.collection{padding-top:44px}.collection-head{align-items:start;flex-direction:column}.legend-extra{width:100%}.table-header,.staff-row{grid-template-columns:minmax(120px,42%) minmax(130px,1fr);gap:8px}.table-header>span:last-child,.tenure-text{display:none}.person strong{font-size:13px}.person small{font-size:10px}.ruler span{font-size:9px}.histogram-bars{height:150px}.foot{flex-direction:column}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;animation:none!important}}
+
+
+/* D3-powered spatial timeline */
+.gesture-atlas{position:relative;border-top:2px solid var(--ink);background:#f4f5ee;margin-top:2px}
+.gesture-toolbar{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:12px 15px;background:#e2e8de;border-bottom:1px solid #c0ccc1}
+.gesture-label{display:flex;align-items:center;gap:10px;font:10px 'DM Mono',monospace;letter-spacing:.06em;color:#45564b}
+.gesture-sep{color:#a4b2a6}
+.gesture-buttons{display:flex;gap:3px}
+.gesture-buttons button{display:flex;align-items:center;justify-content:center;border:1px solid #b4c2b7;background:#f6f7f0;color:#172b2a;width:38px;height:36px;cursor:pointer;font:19px 'DM Mono',monospace}
+.gesture-buttons button:hover{background:#182c2c;color:white}
+.gesture-buttons button:focus-visible,.gesture-name:focus-visible{outline:3px solid #0f62fe;outline-offset:-2px}
+.gesture-viewport{display:flex;width:100%;min-width:0;overflow:hidden}
+.gesture-names{width:210px;flex:none;background:#e9eee5;border-right:1px solid #b8c6bb;z-index:1}
+.gesture-name{display:flex;flex-direction:column;align-items:start;justify-content:center;gap:2px;min-width:0;width:100%;height:37px;padding:4px 12px;border:0;border-bottom:1px solid #d7dfd4;background:transparent;text-align:left;color:#23352c;cursor:pointer}
+.gesture-name>span:first-child{display:block;font-size:12px;font-weight:650;letter-spacing:-.025em;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.gesture-name .name-role{font-size:9px;color:#65776c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.gesture-name:hover,.gesture-name.active{background:#d1e0d2}
+.gesture-svg{display:block;min-width:0;flex:1;touch-action:pan-y;cursor:grab}
+.gesture-svg:active{cursor:grabbing}
+.gesture-band{cursor:pointer;transition:opacity .13s}
+.gesture-band:hover{opacity:1}
+.gesture-tip{position:absolute;z-index:3;max-width:240px;min-width:190px;background:#182c2c;color:#fff;padding:13px 16px;box-shadow:0 8px 24px #12231a29;pointer-events:none;display:flex;flex-direction:column;gap:7px;font-size:12px}
+.gesture-tip strong{font-size:15px}.gesture-tip span{color:#c9d8ce}.gesture-tip b{color:#e7a77d;font:12px 'DM Mono',monospace}
+.gesture-note{display:flex;gap:11px;align-items:center;padding:12px 15px;border-top:1px solid #cad5c9;color:#536b5c;font:10px/1.6 'DM Mono',monospace}
+.gesture-zoom{margin-left:auto;white-space:nowrap;font-weight:600;font-size:12px;color:#17352d}
+@media(max-width:650px){.gesture-label{font-size:9px;max-width:100%;flex-wrap:wrap}.gesture-names{width:133px}.gesture-name{padding-inline:6px}.gesture-name>span:first-child{font-size:10px}.gesture-name .name-role{font-size:8px}.gesture-note{font-size:9px}.gesture-buttons button{width:40px;height:40px}}
