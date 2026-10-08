@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { scaleLinear } from 'd3'
 import { useTimelineZoom } from '../../hooks/useTimelineZoom'
-import { Button } from '@carbon/react'
-import { Add, Subtract, Reset, ArrowLeft, ArrowRight, Close, Information } from '@carbon/icons-react'
+import { Information } from '@carbon/icons-react'
+import TimelineControls from './TimelineControls'
+import TimelineOverview from './TimelineOverview'
+import StaffDetails from '../Staff/StaffDetails'
 import { category, palette, MIN, MAX, year, type Staff } from '../../models/employment'
 
 export default function InteractiveTimeline({
@@ -90,82 +92,8 @@ export default function InteractiveTimeline({
     : 0
   return (
     <div className="explorer">
-      <div className="explorer-top">
-        <div className="navigation">
-          <div className="nav-hint">DRAG ← → TO TRAVEL · PINCH TO ZOOM</div>
-          <div className="nav-actions">
-            <Button
-              kind="ghost"
-              size="md"
-              hasIconOnly
-              iconDescription="Earlier years"
-              renderIcon={ArrowLeft}
-              onClick={() => act('left')}
-            />
-            <Button
-              kind="ghost"
-              size="md"
-              hasIconOnly
-              iconDescription="Later years"
-              renderIcon={ArrowRight}
-              onClick={() => act('right')}
-            />
-            <Button
-              kind="ghost"
-              size="md"
-              hasIconOnly
-              iconDescription="Zoom out"
-              renderIcon={Subtract}
-              onClick={() => act('out')}
-            />
-            <Button
-              kind="ghost"
-              size="md"
-              hasIconOnly
-              iconDescription="Zoom in"
-              renderIcon={Add}
-              onClick={() => act('in')}
-            />
-            <Button
-              kind="ghost"
-              size="md"
-              hasIconOnly
-              iconDescription="Reset view"
-              renderIcon={Reset}
-              onClick={() => act('reset')}
-            />
-          </div>
-        </div>
-      </div>
-      <div className="overview">
-        <div className="overview-top">
-          <span>DEPARTMENT OF DESIGN RESEARCH / OVERVIEW</span>
-          <span>
-            {Math.floor(overviewStart)} — {Math.min(1985, Math.ceil(overviewEnd))}
-          </span>
-        </div>
-        <div className="minimap">
-          <svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-label="Employment overview">
-            {lanes.map((d) => (
-              <rect key={d.person.staff_code}
-                x={((Math.max(MIN, d.start) - MIN) / (MAX - MIN)) * 1000}
-                width={((Math.min(MAX, d.end + 1) - Math.max(MIN, d.start)) / (MAX - MIN)) * 1000}
-                y={13 + (d.lane % 7) * 9} height="5"
-                fill={palette[category(d.person.job_title_label)]} opacity=".72" />
-            ))}
-            <rect className="minimap-focus"
-              x={((overviewStart - MIN) / (MAX - MIN)) * 1000}
-              width={Math.max(10, ((overviewEnd - overviewStart) / (MAX - MIN)) * 1000)}
-              y="0" height="100" fill="none" stroke="#ff832b" strokeWidth="2"/>
-          </svg>
-        </div>
-        <div className="minimap-labels">
-          <span>1965</span>
-          <span>1970</span>
-          <span>1980</span>
-          <span>1985</span>
-        </div>
-      </div>
+      <TimelineControls navigate={act}/>
+      <TimelineOverview lanes={lanes} start={overviewStart} end={overviewEnd}/>
       <div className="canvas-wrap" ref={root}>
         <svg
           ref={svg}
@@ -309,46 +237,7 @@ export default function InteractiveTimeline({
           ZOOM {String(Math.round(view.k * 100))}% · {lanes.length} DATED ENTRIES
         </span>
       </div>
-      {selected && (
-        <aside className="person-panel">
-          <button
-            type="button"
-            className="panel-close"
-            onClick={() => onSelect(null)}
-            aria-label="Close staff details"
-          >
-            <Close />
-          </button>
-          <span className="eyebrow">SELECTED RECORD / {selected.staff_code}</span>
-          <h3>{selected.agent_name}</h3>
-          <p className="person-position">{selected.job_title_label}</p>
-          <div className="panel-grid">
-            <div>
-              <small>DOCUMENTED PERIOD</small>
-              <strong>
-                {year(selected.start_date) ?? 'Unknown'} —{' '}
-                {year(selected.end_date) ?? 'Unknown'}
-              </strong>
-            </div>
-            <div>
-              <small>ROLE CLASSIFICATION</small>
-              <strong>{category(selected.job_title_label)}</strong>
-            </div>
-            <div>
-              <small>CONTEMPORARIES</small>
-              <strong>{near} overlapping tenures</strong>
-            </div>
-            <div>
-              <small>RECORD IDENTIFIER</small>
-              <strong>{selected.staff_code}</strong>
-            </div>
-          </div>
-          <p className="panel-disclaimer">
-            Co-presence is derived from date overlap only. Roles with “later” in the
-            description have no separately established transition dates.
-          </p>
-        </aside>
-      )}
+      {selected && <StaffDetails staff={selected} overlapCount={near} onClose={() => onSelect(null)}/>}
     </div>
   )
 }
