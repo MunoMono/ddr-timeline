@@ -19,13 +19,6 @@ export default function InteractiveTimeline({
   const [hover, setHover] = useState<Staff | null>(null)
   const [cursor, setCursor] = useState<number | null>(null)
   const chartW = dimensions.w
-  const left = 26
-  const base = scaleLinear()
-    .domain([MIN, MAX])
-    .range([left, chartW - 22])
-  const scale = base
-    .copy()
-    .range([left + view.x, left + view.x + (chartW - 22 - left) * view.k])
   const dated = people.filter(
     (p) =>
       year(p.start_date) !== null &&
@@ -55,6 +48,13 @@ export default function InteractiveTimeline({
   const laneH = Math.max(27, Math.min(48, 450 / laneCount))
   const sceneH = Math.max(400, laneCount * laneH + 116)
   const { svg, view, navigate: act } = useTimelineZoom(chartW, sceneH)
+  const left = 26
+  const base = scaleLinear()
+    .domain([MIN, MAX])
+    .range([left, chartW - 22])
+  const scale = base
+    .copy()
+    .range([left + view.x, left + view.x + (chartW - 22 - left) * view.k])
   const visible = lanes.filter(
     (d) => scale(d.end + 1) > -50 && scale(d.start) < chartW + 50,
   )
