@@ -25,8 +25,8 @@ type Category = 'Research' | 'Teaching' | 'Administration' | 'Technical' | 'Othe
 const API = import.meta.env.VITE_GRAPHQL_URL || 'https://api.ddrarchive.org/graphql'
 const QUERY =
   'query { agent_employment { staff_code agent_name job_title_code job_title_label start_date end_date is_primary } }'
-const MIN = 1960,
-  MAX = 1990
+const MIN = 1965,
+  MAX = 1986
 const year = (s: string | null) => (s ? Number(s.slice(0, 4)) : null)
 function category(label: string): Category {
   const t = label.toLowerCase()
@@ -78,7 +78,7 @@ function InteractiveTimeline({
     .copy()
     .range([left + view.x, left + view.x + (chartW - 22 - left) * view.k])
   const dated = people.filter(
-    (p) => year(p.start_date) !== null && year(p.end_date) !== null,
+    (p) => year(p.start_date) !== null && year(p.end_date) !== null && year(p.start_date)! <= 1985 && year(p.end_date)! >= MIN,
   )
   const lanes = useMemo(() => {
     const sorted = [...dated].sort(
@@ -106,7 +106,7 @@ function InteractiveTimeline({
   )
   const tickStep = view.k >= 6 ? 1 : view.k >= 3 ? 2 : 5
   const ticks = Array.from(
-    { length: 31 / tickStep + 1 },
+    { length: Math.ceil((MAX - MIN) / tickStep) + 1 },
     (_, i) => MIN + i * tickStep,
   ).filter((y) => y <= MAX)
   useEffect(() => {
@@ -171,7 +171,7 @@ function InteractiveTimeline({
       <div className="explorer-top">
         <div className="explorer-title">
           <span className="eyebrow">
-            INTERACTIVE ARCHIVAL CANVAS <span className="orange-dot">●</span> 1960—1990
+            INTERACTIVE ARCHIVAL CANVAS <span className="orange-dot">●</span> 1965—1985
           </span>
           <h2>
             Working lives<span>.</span>
@@ -229,7 +229,7 @@ function InteractiveTimeline({
       </div>
       <div className="overview">
         <div className="overview-top">
-          <span>THREE DECADES / OVERVIEW</span>
+          <span>DEPARTMENT OF DESIGN RESEARCH / OVERVIEW</span>
           <span>
             {Math.floor(overviewStart)} — {Math.ceil(overviewEnd)}
           </span>
@@ -238,8 +238,8 @@ function InteractiveTimeline({
           <div
             className="minimap-window"
             style={{
-              left: `${((overviewStart - MIN) / 30) * 100}%`,
-              width: `${Math.max(1, ((overviewEnd - overviewStart) / 30) * 100)}%`,
+              left: `${((overviewStart - MIN) / (MAX - MIN)) * 100}%`,
+              width: `${Math.max(1, ((overviewEnd - overviewStart) / (MAX - MIN)) * 100)}%`,
             }}
           />
           {lanes.map((d) => (
@@ -247,8 +247,8 @@ function InteractiveTimeline({
               key={d.person.staff_code}
               className="minimap-band"
               style={{
-                left: `${((d.start - MIN) / 30) * 100}%`,
-                width: `${((d.end + 1 - d.start) / 30) * 100}%`,
+                left: `${((d.start - MIN) / (MAX - MIN)) * 100}%`,
+                width: `${((d.end + 1 - d.start) / (MAX - MIN)) * 100}%`,
                 top: `${13 + (d.lane % 7) * 9}%`,
                 background: palette[category(d.person.job_title_label)],
               }}
@@ -256,10 +256,10 @@ function InteractiveTimeline({
           ))}
         </div>
         <div className="minimap-labels">
-          <span>1960</span>
+          <span>1965</span>
           <span>1970</span>
           <span>1980</span>
-          <span>1990</span>
+          <span>1985</span>
         </div>
       </div>
       <div className="canvas-wrap" ref={root}>
@@ -507,39 +507,12 @@ export default function App() {
       ),
     [people, search, role],
   )
-  const undated = filtered.filter((p) => !p.start_date || !p.end_date)
   return (
     <div className="redesign">
-      <header className="topbar">
-        <a href={import.meta.env.BASE_URL} className="top-logo">
-          DDR<span>·</span>
-          <small>
-            ROYAL COLLEGE OF ART
-            <br />
-            DESIGN RESEARCH ARCHIVE
-          </small>
-        </a>
-        <span className="top-edition">PEOPLE / TEMPORAL ATLAS / 01</span>
-        <a href="https://ddrarchive.org/api" target="_blank" rel="noreferrer">
-          THE ARCHIVE ↗
-        </a>
+      <header className="compact-header">
+        <div className="compact-heading"><span className="compact-kicker">RCA / DDR / 1965–1985</span><h1>Department of Design Research <span>timeline</span></h1></div>
+        <div className="compact-meta"><Tag type={source === 'LIVE GRAPHQL' ? 'green' : 'purple'}>{source}</Tag><strong>{people.length}</strong><span>STAFF ENTRIES</span></div>
       </header>
-      <div className="page-head">
-        <div>
-          <span className="eyebrow">AN INTERACTIVE HISTORY OF A DEPARTMENT</span>
-          <h1>
-            People, <em>in time.</em>
-          </h1>
-        </div>
-        <div className="head-index">
-          <strong>{people.length || '—'}</strong>
-          <span>
-            DOCUMENTED
-            <br />
-            STAFF ENTRIES
-          </span>
-        </div>
-      </div>
       <div className="filter-stripe">
         <div className="find">
           <Search
@@ -566,14 +539,6 @@ export default function App() {
         </div>
       </div>
       <InteractiveTimeline people={filtered} selected={selected} onSelect={setSelected} />
-      <footer className="redesign-footer">
-        <span>DDR ARCHIVE / RCA</span>
-        <p>
-          Data: <a href="https://ddrarchive.org/api">DDR Archive</a> · {undated.length}{' '}
-          records without both dates are excluded from spatial placement. Dates and role
-          descriptions are preserved from source.
-        </p>
-      </footer>
     </div>
   )
 }
