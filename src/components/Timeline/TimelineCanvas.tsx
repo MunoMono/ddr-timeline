@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { select, scaleLinear, zoom, zoomIdentity, type ZoomBehavior } from 'd3'
+import { scaleLinear } from 'd3'
+import { useTimelineZoom } from '../../hooks/useTimelineZoom'
 import { Button } from '@carbon/react'
 import { Add, Subtract, Reset, ArrowLeft, ArrowRight, Close, Information } from '@carbon/icons-react'
 import { category, palette, MIN, MAX, year, type Staff } from '../../models/employment'
@@ -14,10 +15,7 @@ export default function InteractiveTimeline({
   onSelect: (s: Staff | null) => void
 }) {
   const root = useRef<HTMLDivElement>(null)
-  const svg = useRef<SVGSVGElement>(null)
-  const zoomRef = useRef<ZoomBehavior<SVGSVGElement, unknown> | null>(null)
   const [dimensions, setDimensions] = useState({ w: 1050, h: 610 })
-  const [view, setView] = useState({ k: 1, x: 0 })
   const [hover, setHover] = useState<Staff | null>(null)
   const [cursor, setCursor] = useState<number | null>(null)
   const chartW = dimensions.w
@@ -56,6 +54,7 @@ export default function InteractiveTimeline({
   const laneCount = Math.max(1, ...lanes.map((d) => d.lane + 1))
   const laneH = Math.max(27, Math.min(48, 450 / laneCount))
   const sceneH = Math.max(400, laneCount * laneH + 116)
+  const { svg, view, navigate: act } = useTimelineZoom(chartW, sceneH)
   const visible = lanes.filter(
     (d) => scale(d.end + 1) > -50 && scale(d.start) < chartW + 50,
   )
@@ -75,38 +74,6 @@ export default function InteractiveTimeline({
     ob.observe(root.current)
     return () => ob.disconnect()
   }, [])
-  useEffect(() => {
-    const node = svg.current
-    if (!node) return
-    const w = dimensions.w
-    const behavior = zoom<SVGSVGElement, unknown>()
-      .scaleExtent([1, 12])
-      .translateExtent([
-        [0, 0],
-        [w, sceneH],
-      ])
-      .extent([
-        [0, 0],
-        [w, sceneH],
-      ])
-      .filter((e) => e.type !== 'wheel' || e.ctrlKey || e.metaKey)
-      .on('zoom', (e) => setView({ k: e.transform.k, x: e.transform.x }))
-    zoomRef.current = behavior
-    select(node).call(behavior)
-    return () => {
-      select(node).on('.zoom', null)
-    }
-  }, [dimensions.w, sceneH])
-  const act = (op: 'in' | 'out' | 'reset' | 'left' | 'right') => {
-    if (!svg.current || !zoomRef.current) return
-    const el = select(svg.current),
-      z = zoomRef.current
-    const target = el.transition().duration(320)
-    if (op === 'reset') target.call(z.transform, zoomIdentity)
-    else if (op === 'in' || op === 'out')
-      target.call(z.scaleBy, op === 'in' ? 1.7 : 1 / 1.7, [chartW / 2, sceneH / 2])
-    else target.call(z.translateBy, op === 'left' ? 110 : -110, 0)
-  }
   const overviewStart = Math.max(MIN, scale.invert(left))
   const overviewEnd = Math.min(MAX, scale.invert(chartW - 22))
   const near = selected
