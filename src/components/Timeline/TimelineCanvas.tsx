@@ -339,7 +339,7 @@ export default function InteractiveTimeline({
           tenures do not prove collaboration.
         </span>
         <span>
-          ZOOM {fmt(Math.round(view.k * 100))}% · {lanes.length} DATED ENTRIES
+          ZOOM {String(Math.round(view.k * 100))}% · {lanes.length} DATED ENTRIES
         </span>
       </div>
       {selected && (
