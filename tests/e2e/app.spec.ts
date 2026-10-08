@@ -1,20 +1,24 @@
 import { expect, test } from '@playwright/test'
-test('immersive canvas renders sourced bands and accessible controls on mobile', async ({page}) => {
-  const errors:string[]=[]
-  page.on('pageerror',err=>errors.push(err.message))
-  await page.route('https://api.ddrarchive.org/graphql',route=>route.abort())
+test('immersive canvas renders sourced bands and accessible controls on mobile', async ({
+  page,
+}) => {
+  const errors: string[] = []
+  page.on('pageerror', (err) => errors.push(err.message))
+  await page.route('https://api.ddrarchive.org/graphql', (route) => route.abort())
   await page.goto('/')
-  await expect(page.getByRole('heading',{name:/Working lives/i})).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Working lives/i })).toBeVisible()
   await expect(page.getByText('89', { exact: true })).toBeVisible()
   await expect(page.locator('.interactive-band').first()).toBeVisible()
-  await page.getByRole('button',{name:'Zoom in'}).click()
+  await page.getByRole('button', { name: 'Zoom in' }).click()
   await expect(page.getByText(/ZOOM 170%/)).toBeVisible()
-  await page.getByRole('button',{name:'Reset view'}).click()
+  await page.getByRole('button', { name: 'Reset view' }).click()
   await page.getByRole('searchbox').fill('Janet Daley')
   await expect(page.locator('.interactive-band')).toHaveCount(1)
   await page.locator('.interactive-band').first().click()
-  await expect(page.getByRole('heading',{name:'Janet Daley'})).toBeVisible()
-  await page.setViewportSize({width:375,height:812})
-  expect(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)).toBe(false)
+  await expect(page.getByRole('heading', { name: 'Janet Daley' })).toBeVisible()
+  await page.setViewportSize({ width: 375, height: 812 })
+  expect(
+    await page.evaluate(() => document.documentElement.scrollWidth > innerWidth),
+  ).toBe(false)
   expect(errors).toEqual([])
 })
