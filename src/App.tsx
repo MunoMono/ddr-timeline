@@ -173,18 +173,6 @@ function InteractiveTimeline({
   return (
     <div className="explorer">
       <div className="explorer-top">
-        <div className="explorer-title">
-          <span className="eyebrow">
-            INTERACTIVE ARCHIVAL CANVAS <span className="orange-dot">●</span> 1965—1985
-          </span>
-          <h2>
-            Working lives<span>.</span>
-          </h2>
-          <p>
-            Follow the people who shaped a department. Select a band to examine its
-            recorded history.
-          </p>
-        </div>
         <div className="navigation">
           <div className="nav-hint">DRAG ← → TO TRAVEL · PINCH TO ZOOM</div>
           <div className="nav-actions">
@@ -546,10 +534,7 @@ export default function App() {
             <SelectItem key={c} value={c} text={c} />
           ))}
         </Select>
-        <div className="filter-counter">
-          <Tag type={source === 'LIVE GRAPHQL' ? 'green' : 'purple'}>{source}</Tag>
-          <span>{filtered.length} MATCHES</span>
-        </div>
+        <div className="filter-counter"><span>{filtered.length} MATCHES</span></div>
       </div>
       <InteractiveTimeline people={filtered} selected={selected} onSelect={setSelected} />
     </div>
