@@ -271,11 +271,7 @@ export default function InteractiveTimeline({
                   stroke={isSelected ? 'white' : 'none'}
                   strokeWidth="2"
                   className="interactive-band"
-                  onPointerEnter={(e) => {
-                    const rect = root.current?.getBoundingClientRect()
-                    if (rect)
-                      setHover(person)
-                  }}
+                  onPointerEnter={() => setHover(person)}
                   onPointerLeave={() => setHover(null)}
                   onClick={() => onSelect(isSelected ? null : person)}
                 >
