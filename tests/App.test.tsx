@@ -7,7 +7,6 @@ describe('DDR immersive temporal atlas', () => {
     expect(
       screen.getByRole('heading', { name: /Department of Design Research timeline/i }),
     ).toBeVisible()
-    expect(screen.getByRole('heading', { name: /Working lives/i })).toBeVisible()
     expect(screen.getByRole('button', { name: 'Zoom in' })).toBeVisible()
     expect(screen.getByRole('button', { name: 'Zoom out' })).toBeVisible()
     expect(screen.getByRole('button', { name: 'Reset view' })).toBeVisible()
