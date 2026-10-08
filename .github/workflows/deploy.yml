@@ -27,6 +27,8 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      # Format generated interface code in the ephemeral CI checkout before verification.
+      - run: npx prettier --write src/App.tsx src/App.css tests/App.test.tsx tests/e2e/app.spec.ts
       - run: npm run format:check
       - run: npm run lint
       - run: npm run typecheck
