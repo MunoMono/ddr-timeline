@@ -1,7 +1,4 @@
 html, body, #root { font-family: 'IBM Plex Sans', sans-serif; }
-:root {
-  --cds-background: #f4f4f4;
-}
 * {
   box-sizing: border-box;
 }
@@ -78,7 +75,7 @@ body {
   margin: 16px 0 0;
 }
 .page-head h1 em {
-  font-family: Georgia, serif;
+  font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 400;
 }
 .head-index {
