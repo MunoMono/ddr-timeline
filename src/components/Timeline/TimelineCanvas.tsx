@@ -6,7 +6,6 @@ import { Button, Grid, Column } from '@carbon/react'
 import { downloadCSV, downloadSVGAsPNG } from '../../utils/export'
 import TimelineControls from './TimelineControls'
 import TimelineOverview from './TimelineOverview'
-import StaffDetails from '../Staff/StaffDetails'
 import { category, palette, MIN, MAX, year, type Staff } from '../../models/employment'
 import { packEmploymentLanes } from '../../utils/timeline'
 import type { DDRPeriod } from '../../hooks/useDDRPeriods'
@@ -65,18 +64,21 @@ export default function InteractiveTimeline({
   }, [])
   const overviewStart = Math.max(MIN, scale.invert(left))
   const overviewEnd = Math.min(MAX, scale.invert(chartW - 22))
-  const near = selected
-    ? people.filter(
-        (p) =>
-          p.staff_code !== selected.staff_code &&
-          year(p.start_date) !== null &&
-          year(p.end_date) !== null &&
-          year(selected.start_date) !== null &&
-          year(selected.end_date) !== null &&
-          year(p.start_date)! <= year(selected.end_date)! &&
-          year(p.end_date)! >= year(selected.start_date)!,
-      ).length
-    : 0
+  const moveTooltip = (clientX: number, clientY: number) => {
+    if (!root.current) return
+    const bounds = root.current.getBoundingClientRect()
+    const x = Math.max(170, Math.min(bounds.width - 170, clientX - bounds.left))
+    const y = Math.max(12, clientY - bounds.top - 12)
+    root.current.style.setProperty('--staff-tooltip-x', x + 'px')
+    root.current.style.setProperty('--staff-tooltip-y', y + 'px')
+  }
+  const overlappingTenures = (staff: Staff) => people.filter(
+    person => person.staff_code !== staff.staff_code &&
+      year(person.start_date) !== null && year(person.end_date) !== null &&
+      year(staff.start_date) !== null && year(staff.end_date) !== null &&
+      year(person.start_date)! <= year(staff.end_date)! &&
+      year(person.end_date)! >= year(staff.start_date)!
+  ).length
   return (
     <div className="explorer">
       <Grid condensed className="timeline-toolbar">
@@ -172,9 +174,16 @@ export default function InteractiveTimeline({
                   stroke={isSelected ? 'var(--cds-text-primary)' : 'none'}
                   strokeWidth="2"
                   className="interactive-band"
-                  onPointerEnter={() => setHover(person)}
+                  onPointerEnter={(event) => { setHover(person); moveTooltip(event.clientX, event.clientY) }}
+                  onPointerMove={(event) => moveTooltip(event.clientX, event.clientY)}
                   onPointerLeave={() => setHover(null)}
+                  tabIndex={0}
+                  role="img"
+                  aria-label={`${person.agent_name}, ${start} to ${end}, ${person.job_title_label}`}
+                  onFocus={(event) => { setHover(person); const bounds = event.currentTarget.getBoundingClientRect(); moveTooltip(bounds.left + bounds.width / 2, bounds.top) }}
+                  onBlur={() => setHover(null)}
                   onClick={() => onSelect(isSelected ? null : person)}
+                  onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); onSelect(isSelected ? null : person) } }}
                 >
                   <title>
                     {person.agent_name} · {start}–{end}
@@ -224,14 +233,17 @@ export default function InteractiveTimeline({
           )}
         </svg>
         {hover && (
-          <div className="floating-tip"
-          >
-            <span>DOCUMENTED STAFF</span>
+          <div className="floating-tip staff-record-tooltip" role="tooltip" aria-label={`Documented staff details for ${hover.agent_name}`}>
+            <span>DOCUMENTED STAFF / {hover.staff_code}</span>
             <strong>{hover.agent_name}</strong>
             <p>{hover.job_title_label}</p>
-            <small>
-              {year(hover.start_date)}—{year(hover.end_date)}
-            </small>
+            <dl>
+              <div><dt>Documented period</dt><dd>{year(hover.start_date) ?? 'Unknown'}–{year(hover.end_date) ?? 'Unknown'}</dd></div>
+              <div><dt>Role classification</dt><dd>{category(hover.job_title_label)}</dd></div>
+              <div><dt>Contemporaries</dt><dd>{overlappingTenures(hover)} overlapping tenures</dd></div>
+              <div><dt>Record identifier</dt><dd>{hover.staff_code}</dd></div>
+            </dl>
+            <p className="tooltip-caveat">Date overlap indicates co-presence, not collaboration. Descriptions containing “later” do not establish a transition date.</p>
           </div>
         )}
       </div>
@@ -259,7 +271,7 @@ export default function InteractiveTimeline({
         }}>Download PNG</Button>
         {exportError && <span role="alert" className="timeline-export-error">{exportError}</span>}
       </div>
-      {selected && <StaffDetails staff={selected} overlapCount={near} onClose={() => onSelect(null)}/>}
+
     </div>
   )
 }
