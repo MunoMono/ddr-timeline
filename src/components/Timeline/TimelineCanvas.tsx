@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { scaleLinear } from 'd3'
 import { useTimelineZoom } from '../../hooks/useTimelineZoom'
 import { Information, Download } from '@carbon/icons-react'
-import { Button, Grid, Column } from '@carbon/react'
+import { Button } from '@carbon/react'
 import { downloadCSV, downloadSVGAsPNG } from '../../utils/export'
 import TimelineControls from './TimelineControls'
 import TimelineOverview from './TimelineOverview'
@@ -81,10 +81,10 @@ export default function InteractiveTimeline({
   ).length
   return (
     <div className="explorer">
-      <Grid condensed className="timeline-toolbar">
-        <Column sm={4} md={8} lg={12} className="toolbar-filters">{toolbar}</Column>
-        <Column sm={4} md={8} lg={4} className="toolbar-navigation"><TimelineControls navigate={act}/></Column>
-      </Grid>
+      <div className="timeline-toolbar">
+        <div className="toolbar-filters">{toolbar}</div>
+        <div className="toolbar-navigation"><TimelineControls navigate={act}/></div>
+      </div>
       <TimelineOverview lanes={lanes} start={overviewStart} end={overviewEnd} periods={periods} selectedPeriod={selectedPeriod}/>
       <div className="canvas-wrap" ref={root}>
         <svg
