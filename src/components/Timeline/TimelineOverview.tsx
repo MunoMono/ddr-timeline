@@ -8,7 +8,7 @@ export default function TimelineOverview({lanes,start,end,periods,selectedPeriod
   return <section className="overview" aria-label="Full period overview">
     <div className="overview-top">
       <span>DEPARTMENT OF DESIGN RESEARCH / OVERVIEW</span>
-      <span>{Math.floor(start)} — {Math.min(1985,Math.ceil(end))}</span>
+      <span>{selectedPeriod ? selectedPeriod.start : Math.floor(start)} — {selectedPeriod ? selectedPeriod.end : Math.min(1985,Math.ceil(end))}</span>
     </div>
     <div className="minimap">
       <svg viewBox="0 0 1000 100" preserveAspectRatio="none" role="img" aria-label="Overview of all documented employment periods">
