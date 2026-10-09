@@ -225,8 +225,8 @@ export default function InteractiveTimeline({
         <Button kind="tertiary" size="lg" renderIcon={Download} onClick={async () => {
           setExportError('')
           try {
-            if (!exportSvg.current) throw new Error('Timeline unavailable')
-            await downloadSVGAsPNG(exportSvg.current, 'ddr-timeline.png')
+            if (!svg.current) throw new Error('Timeline unavailable')
+            await downloadSVGAsPNG(svg.current, 'ddr-timeline.png')
           } catch { setExportError('PNG export failed. Please try again.') }
         }}>Download PNG</Button>
         {exportError && <span role="alert" className="timeline-export-error">{exportError}</span>}
