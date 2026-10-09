@@ -76,7 +76,7 @@ export default function InteractiveTimeline({
       <TimelineOverview lanes={lanes} start={overviewStart} end={overviewEnd}/>
       <div className="canvas-wrap" ref={root}>
         <svg
-          ref={(node) => { svg.current = node; svg.current = node }}
+          ref={svg}
           viewBox={`0 0 ${chartW} ${sceneH}`}
           className="main-canvas"
           role="img"
