@@ -3,7 +3,7 @@ import { category, palette, MIN, MAX } from '../../models/employment'
 import type { TimelineLane } from '../../utils/timeline'
 import type { DDRPeriod } from '../../hooks/useDDRPeriods'
 
-export default function TimelineOverview({ lanes, start, end, selectedPeriod, onScrub, onWindowChange }: {
+export default function TimelineOverview({ lanes, start, end, onScrub, onWindowChange }: {
   lanes: TimelineLane[]
   start: number
   end: number
