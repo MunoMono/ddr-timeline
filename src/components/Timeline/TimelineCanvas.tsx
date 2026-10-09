@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { scaleLinear } from 'd3'
 import { useTimelineZoom } from '../../hooks/useTimelineZoom'
 import { Information, Download } from '@carbon/icons-react'
@@ -17,12 +17,14 @@ export default function InteractiveTimeline({
   onSelect,
   periods,
   selectedPeriod,
+  toolbar,
 }: {
   people: Staff[]
   selected: Staff | null
   onSelect: (s: Staff | null) => void
   periods: DDRPeriod[]
   selectedPeriod: DDRPeriod | null
+  toolbar: ReactNode
 }) {
   const root = useRef<HTMLDivElement>(null)
   const [exportError, setExportError] = useState('')
@@ -77,7 +79,7 @@ export default function InteractiveTimeline({
     : 0
   return (
     <div className="explorer">
-      <TimelineControls navigate={act}/>
+      <div className="timeline-toolbar">{toolbar}<TimelineControls navigate={act}/></div>
       <TimelineOverview lanes={lanes} start={overviewStart} end={overviewEnd} periods={periods} selectedPeriod={selectedPeriod}/>
       <div className="canvas-wrap" ref={root}>
         <svg
