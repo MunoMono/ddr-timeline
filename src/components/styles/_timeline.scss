@@ -656,3 +656,30 @@ body,
 
 
 .minimap svg { display:block; width:100%; height:100%; }
+
+/* Theme-aware Carbon 11 surfaces override the original fixed dark palette. */
+html, body, #root, .redesign, .explorer, .canvas-wrap, .overview { background: var(--cds-background) !important; color: var(--cds-text-primary); }
+.ddr-app-shell { min-height: 100vh; background: var(--cds-background); color: var(--cds-text-primary); }
+.ddr-app-shell > .cds--header { background: var(--cds-background); color: var(--cds-text-primary); border-bottom: 1px solid var(--cds-border-subtle); }
+.ddr-app-shell .cds--header__name, .ddr-app-shell .cds--header__action { color: var(--cds-text-primary); }
+.redesign { padding-top: 3rem; }
+.compact-header, .filter-stripe, .person-panel { background: var(--cds-layer) !important; color: var(--cds-text-primary); border-color: var(--cds-border-subtle); }
+.compact-heading h1, .compact-meta strong, .person-panel h3 { color: var(--cds-text-primary); }
+.compact-meta, .compact-kicker, .filter-counter, .person-position, .panel-disclaimer, .explorer-title p, .overview-top, .minimap-labels, .under-canvas, .nav-hint, .panel-grid small { color: var(--cds-text-secondary); }
+.filter-stripe .cds--label { color: var(--cds-text-secondary); }
+.filter-stripe .cds--search-input, .filter-stripe .cds--select-input { background: var(--cds-field); color: var(--cds-text-primary); }
+.filter-stripe .cds--search-input::placeholder { color: var(--cds-text-placeholder); }
+.filter-stripe .cds--search-magnifier, .filter-stripe .cds--search-close, .filter-stripe .cds--select__arrow { fill: var(--cds-icon-primary); }
+.minimap { background: var(--cds-layer); border-color: var(--cds-border-subtle); }
+.canvas-wrap { border-color: var(--cds-border-subtle); }
+.nav-actions .cds--btn { color: var(--cds-icon-primary); background: var(--cds-layer); }
+.nav-actions .cds--btn:hover { background: var(--cds-layer-hover); }
+.floating-tip { background: var(--cds-layer); color: var(--cds-text-primary); }
+.floating-tip span, .floating-tip p { color: var(--cds-text-secondary); }
+.panel-close { background: var(--cds-layer); color: var(--cds-text-primary); }
+.panel-grid { border-color: var(--cds-border-subtle); }
+.timeline-entity .interactive-band:hover { stroke: var(--cds-text-primary); }
+.timeline-export-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; padding: 1rem clamp(18px, 3vw, 58px) 1.5rem; }
+.timeline-export-actions .cds--btn { min-width: 10rem; justify-content: space-between; }
+.timeline-export-error { color: var(--cds-support-error); }
+@media (max-width: 560px) { .timeline-export-actions .cds--btn { width: 100%; max-width: none; } }

@@ -1,6 +1,6 @@
 @use '@carbon/styles/scss/themes' as *;
 @use '@carbon/styles/scss/theme';
-:root {
+:root, html[data-theme='g90'] {
   @include theme.theme($g90);
   --ddr-role-research: #0f62fe;
   --ddr-role-teaching: #ff832b;
@@ -8,3 +8,5 @@
   --ddr-role-technical: #42be65;
   --ddr-role-other: #a8a8a8;
 }
+
+html[data-theme='g10'] { @include theme.theme($g10); }
