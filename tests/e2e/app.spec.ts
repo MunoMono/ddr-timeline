@@ -105,7 +105,7 @@ test('critical period selection snaps zoom to its inclusive calendar boundaries'
   await page.goto('/')
   await page.locator('#period-select').selectOption('1973-79')
   await expect(page.getByText(/ZOOM 300%/)).toBeVisible()
-  await expect(page.locator('.overview-top')).toContainText('1973 — 1979')
+  await expect(page.locator('.overview-top')).toContainText('1973.0 — 1980.0')
   await page.locator('#period-select').selectOption('')
   await expect(page.getByText(/ZOOM 100%/)).toBeVisible()
 })
@@ -193,4 +193,27 @@ test('overview drag scrubs the timeline and lane rules are horizontal', async ({
     lines.filter(line => line.getAttribute('y1') === line.getAttribute('y2')).length
   )
   expect(first).toBeGreaterThan(0)
+})
+
+test('dragging overview handles changes visible range and main timeline zoom immediately', async ({ page }) => {
+  await page.route('https://api.ddrarchive.org/graphql', route => route.abort())
+  await page.setViewportSize({ width: 1600, height: 900 })
+  await page.goto('/')
+  const overview = page.getByRole('slider', { name: 'Scrub the historical timeline' })
+  const bounds = await overview.boundingBox()
+  expect(bounds).not.toBeNull()
+  if (!bounds) return
+  const start = bounds.x + 2
+  const y = bounds.y + bounds.height / 2
+  await page.mouse.move(start, y)
+  await page.mouse.down()
+  await page.mouse.move(bounds.x + bounds.width * 0.32, y, { steps: 12 })
+  await page.mouse.up()
+  await expect(page.getByText(/ZOOM [1-9][0-9]{2}%/)).toBeVisible()
+  const label = page.locator('.overview-top span').last()
+  await expect(label).not.toContainText('1965.0')
+  const edges = await page.locator('.minimap-resize-handle').evaluateAll(nodes =>
+    nodes.map(node => Number(node.getAttribute('x'))))
+  expect(edges[0]).toBeGreaterThan(10)
+  expect(edges[1]).toBeGreaterThan(edges[0])
 })

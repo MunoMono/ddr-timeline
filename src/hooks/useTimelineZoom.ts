@@ -50,6 +50,19 @@ export function useTimelineZoom(width: number, height: number, periodStart?: num
     select(svg.current).interrupt().call(zoomRef.current.transform, transform)
   }
 
+  function setWindow(start: number, end: number) {
+    if (!svg.current || !zoomRef.current) return
+    const a = Math.max(1965, Math.min(1986, start))
+    const b = Math.max(a + 21 / 12, Math.min(1986, end))
+    const k = Math.max(1, Math.min(12, 21 / (b - a)))
+    const span = width - 48
+    const x = -((a - 1965) / 21) * span * k
+    select(svg.current).interrupt().call(
+      zoomRef.current.transform,
+      zoomIdentity.translate(x, 0).scale(k),
+    )
+  }
+
   function navigate(action: TimelineNavAction) {
     if (!svg.current || !zoomRef.current) return
     const target = select(svg.current).transition().duration(320)
@@ -60,5 +73,5 @@ export function useTimelineZoom(width: number, height: number, periodStart?: num
     else target.call(behavior.translateBy, action === 'left' ? 110 : -110, 0)
   }
 
-  return { svg, view, navigate, scrubTo }
+  return { svg, view, navigate, scrubTo, setWindow }
 }

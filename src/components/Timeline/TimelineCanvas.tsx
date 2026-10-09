@@ -36,7 +36,7 @@ export default function InteractiveTimeline({
   const laneCount = Math.max(1, ...lanes.map((d) => d.lane + 1))
   const laneH = Math.max(27, Math.min(48, 450 / laneCount))
   const sceneH = Math.max(440, laneCount * laneH + 156)
-  const { svg, view, navigate: act, scrubTo } = useTimelineZoom(chartW, sceneH, selectedPeriod?.start, selectedPeriod?.end)
+  const { svg, view, navigate: act, scrubTo, setWindow } = useTimelineZoom(chartW, sceneH, selectedPeriod?.start, selectedPeriod?.end)
   const left = 26
   const base = scaleLinear()
     .domain([MIN, MAX])
@@ -84,7 +84,7 @@ export default function InteractiveTimeline({
         <div className="toolbar-filters">{toolbar}</div>
         <div className="toolbar-navigation"><TimelineControls navigate={act}/></div>
       </div>
-      <TimelineOverview lanes={lanes} start={overviewStart} end={overviewEnd} periods={periods} selectedPeriod={selectedPeriod} onScrub={scrubTo}/>
+      <TimelineOverview lanes={lanes} start={overviewStart} end={overviewEnd} periods={periods} selectedPeriod={selectedPeriod} onScrub={scrubTo} onWindowChange={setWindow}/>
       <div className="canvas-wrap" ref={root}>
         <svg
           ref={svg}
