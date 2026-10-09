@@ -31,7 +31,10 @@ html[data-theme='g90'] .filter-stripe .cds--select-input {
 
 .timeline-toolbar .filter-stripe {
   display: grid;
-  grid-template-columns: minmax(170px, 1.2fr) minmax(150px, 0.85fr) minmax(220px, 1.3fr) auto;
+  grid-template-columns: minmax(170px, 1.2fr) minmax(150px, 0.85fr) minmax(
+      220px,
+      1.3fr
+    ) auto;
   gap: 1rem;
   align-items: end;
   flex: 1 1 auto;
