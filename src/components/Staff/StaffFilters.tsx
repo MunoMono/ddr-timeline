@@ -26,6 +26,5 @@ export default function StaffFilters({
         {periods.filter(p=>p.slug!=='1965-1985').map(p=><SelectItem key={p.slug} value={p.slug} text={p.start+'–'+p.end+' · '+p.label}/>)}
       </Select>
     </div>
-    <Column sm={4} md={8} lg={2} className="filter-count-cell"><span className="filter-counter">{count} MATCHES</span></div>
   </div>
 }
