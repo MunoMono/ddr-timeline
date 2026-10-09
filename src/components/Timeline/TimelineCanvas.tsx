@@ -182,6 +182,8 @@ export default function InteractiveTimeline({
                   aria-label={`${person.agent_name}, ${start} to ${end}, ${person.job_title_label}`}
                   onFocus={(event) => { setHover(person); const bounds = event.currentTarget.getBoundingClientRect(); moveTooltip(bounds.left + bounds.width / 2, bounds.top) }}
                   onBlur={() => setHover(null)}
+                  onClick={() => onSelect(isSelected ? null : person)}
+                  onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); onSelect(isSelected ? null : person) } }}
                 >
                   <title>
                     {person.agent_name} · {start}–{end}
