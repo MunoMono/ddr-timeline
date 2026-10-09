@@ -27,8 +27,8 @@ export default function TimelineOverview({ lanes, start, end, selectedPeriod, on
     if (event.pointerType === 'mouse' && event.button !== 0) return
     const { year, pixelsPerYear } = coordinate(event)
     const tolerance = 15 / Math.max(1, pixelsPerYear)
-    const mode = Math.abs(year - lo) <= tolerance && lo > MIN + 0.01 ? 'left'
-      : Math.abs(year - hi) <= tolerance && hi < MAX - 0.01 ? 'right'
+    const mode = Math.abs(year - lo) <= tolerance ? 'left'
+      : Math.abs(year - hi) <= tolerance ? 'right'
       : year >= lo && year <= hi ? 'pan' : 'seek'
     dragRef.current = { mode, pointerX: year, start: lo, end: hi }
     setDragging(mode)
@@ -99,8 +99,8 @@ export default function TimelineOverview({ lanes, start, end, selectedPeriod, on
           {focusWidth < 998 && (
             <rect x={left} width={focusWidth} y={1} height={98} fill="var(--cds-highlight)" fillOpacity={0.22} pointerEvents="none" />
           )}
-          {lo > MIN + 0.01 && <rect className="minimap-resize-handle" x={left - 3} width={6} y={0} height={100} rx={1} fill="var(--cds-focus)" pointerEvents="none" />}
-          {hi < MAX - 0.01 && <rect className="minimap-resize-handle" x={right - 3} width={6} y={0} height={100} rx={1} fill="var(--cds-focus)" pointerEvents="none" />}
+          <rect className="minimap-resize-handle" x={Math.max(0, left - 4)} width={8} y={0} height={100} rx={1} fill="var(--cds-focus)" />
+          <rect className="minimap-resize-handle" x={Math.min(992, right - 4)} width={8} y={0} height={100} rx={1} fill="var(--cds-focus)" />
         </svg>
       </div>
       <div className="minimap-labels" aria-hidden="true">
