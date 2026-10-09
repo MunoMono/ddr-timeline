@@ -11,5 +11,8 @@ describe('DDR immersive temporal atlas', () => {
     expect(screen.getByRole('button', { name: 'Zoom out' })).toBeVisible()
     expect(screen.getByRole('button', { name: 'Reset view' })).toBeVisible()
     expect(screen.getByRole('searchbox')).toBeEnabled()
+    expect(screen.getByRole('button', { name: 'Switch to light mode' })).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Download CSV' })).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Download PNG' })).toBeVisible()
   })
 })
