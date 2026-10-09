@@ -155,6 +155,11 @@ export default function InteractiveTimeline({
               right = scale(Math.min(end + 1, MAX)),
               w = Math.max(3, right - x),
               y = 115 + lane * laneH
+            // Keep labels in the visible viewport when a tenure starts before
+            // the selected critical period; its original bar remains unchanged.
+            const labelX = Math.max(left + 9, x + 9)
+            const visibleLabelWidth = Math.max(0, Math.min(chartW - 22, right) - labelX - 9)
+            const maxLabelChars = Math.floor(visibleLabelWidth / 7)
             const isSelected = person.staff_code === selected?.staff_code
             const faded =
               selected &&
@@ -188,20 +193,17 @@ export default function InteractiveTimeline({
                     {person.agent_name} · {start}–{end}
                   </title>
                 </rect>
-                {w > 85 && (
+                {visibleLabelWidth > 35 && (
                   <text
                     className="band-label"
-                    x={x + 9}
+                    x={labelX}
                     y={y + (laneH - 6) / 2 + 4}
                     fontSize={Math.min(14, laneH * 0.38)}
                     fill="var(--cds-text-on-color)"
                     pointerEvents="none"
                   >
-                    {person.agent_name.length > Math.floor((w - 18) / 7)
-                      ? person.agent_name.slice(
-                          0,
-                          Math.max(3, Math.floor((w - 25) / 7)),
-                        ) + '…'
+                    {person.agent_name.length > maxLabelChars
+                      ? person.agent_name.slice(0, Math.max(3, maxLabelChars - 1)) + '…'
                       : person.agent_name}
                   </text>
                 )}
