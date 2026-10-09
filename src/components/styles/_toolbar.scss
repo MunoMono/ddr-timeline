@@ -1,43 +1,68 @@
-/* Carbon's 16-column grid governs the single compact control strip. */
-.timeline-toolbar.cds--grid {
-  display: grid;
-  grid-template-columns: repeat(16, minmax(0, 1fr));
-  align-items: end;
-  gap: 0;
-  margin: 0;
-  padding: 0.5rem clamp(18px, 3vw, 58px);
-  background: var(--cds-background);
+/* Compact IBM Carbon 16-column toolbar. Selector targets are intentionally
+   independent of Carbon's generated grid class names. */
+.timeline-toolbar {
+  display: grid !important;
+  grid-template-columns: repeat(16, minmax(0, 1fr)) !important;
+  grid-auto-flow: row;
+  align-items: end !important;
+  gap: 0 !important;
+  max-width: none !important;
+  width: 100%;
+  margin: 0 !important;
+  padding: 0.5rem clamp(18px, 3vw, 58px) !important;
+  background: var(--cds-background) !important;
   border-bottom: 1px solid var(--cds-border-subtle);
 }
 
-.timeline-toolbar > .toolbar-filters,
+.timeline-toolbar > .toolbar-filters {
+  grid-column: 1 / span 12 !important;
+  grid-row: 1 !important;
+  min-width: 0;
+  padding: 0 !important;
+}
+
 .timeline-toolbar > .toolbar-navigation {
+  grid-column: 13 / span 4 !important;
+  grid-row: 1 !important;
   min-width: 0;
-  padding: 0;
-}
-
-.timeline-toolbar .filter-stripe.cds--grid {
-  display: grid;
-  grid-template-columns: repeat(16, minmax(0, 1fr));
+  padding: 0 !important;
+  display: flex;
+  justify-content: flex-end;
   align-items: end;
-  gap: 0;
-  margin: 0;
-  padding: 0;
+}
+
+.timeline-toolbar .filter-stripe {
+  display: grid !important;
+  grid-template-columns: repeat(16, minmax(0, 1fr)) !important;
+  grid-auto-flow: row;
+  align-items: end !important;
+  gap: 0 !important;
+  max-width: none !important;
+  width: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 0 !important;
   background: transparent !important;
-  border: 0;
+  border: 0 !important;
 }
 
-.timeline-toolbar .filter-cell {
+.timeline-toolbar .filter-stripe > .filter-cell,
+.timeline-toolbar .filter-stripe > .filter-count-cell {
+  grid-row: 1 !important;
   min-width: 0;
-  padding-inline: 0.375rem;
+  padding: 0 0.375rem !important;
+  align-self: end !important;
 }
+.timeline-toolbar .filter-stripe > .filter-cell:nth-child(1) { grid-column: 1 / span 5 !important; }
+.timeline-toolbar .filter-stripe > .filter-cell:nth-child(2) { grid-column: 6 / span 4 !important; }
+.timeline-toolbar .filter-stripe > .filter-cell:nth-child(3) { grid-column: 10 / span 5 !important; }
+.timeline-toolbar .filter-stripe > .filter-count-cell { grid-column: 15 / span 2 !important; padding-bottom: 0.75rem !important; }
 
-.timeline-toolbar .filter-count-cell {
-  padding: 0 0.375rem 0.625rem;
-  min-width: 0;
-  align-self: end;
+.timeline-toolbar .filter-search-label {
+  display: block;
+  margin: 0 0 0.5rem;
+  height: 1rem;
 }
-
 .timeline-toolbar .filter-counter {
   display: block;
   margin: 0;
@@ -45,47 +70,34 @@
   font-size: 0.625rem;
   white-space: nowrap;
 }
-
-.timeline-toolbar .filter-search-label {
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
 .timeline-toolbar .cds--search,
 .timeline-toolbar .cds--select,
 .timeline-toolbar .cds--select-input__wrapper,
 .timeline-toolbar .cds--search-input,
 .timeline-toolbar .cds--select-input {
-  width: 100%;
-  min-width: 0;
+  display: block;
+  width: 100% !important;
+  min-width: 0 !important;
 }
-
-.timeline-toolbar .find { flex: none; min-width: 0; }
-
-.timeline-toolbar .toolbar-navigation {
-  display: flex;
-  justify-content: flex-end;
-  align-items: end;
-}
-
 .timeline-toolbar .explorer-top {
-  padding: 0;
-  margin: 0;
+  padding: 0 !important;
+  margin: 0 !important;
   display: block;
 }
-
 .timeline-toolbar .navigation {
-  display: block;
   padding: 0;
+  display: block;
 }
-
 .timeline-toolbar .nav-hint { display: none; }
-.timeline-toolbar .nav-actions { display: flex; flex-wrap: nowrap; gap: 0; }
-
+.timeline-toolbar .nav-actions {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0;
+}
 .timeline-toolbar .nav-actions .cds--btn {
-  width: 3rem;
-  height: 3rem;
-  min-height: 3rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  min-height: 2.5rem;
 }
 
 html[data-theme='g90'] .ddr-app-shell,
@@ -95,31 +107,35 @@ html[data-theme='g90'] .explorer,
 html[data-theme='g90'] .overview,
 html[data-theme='g90'] .canvas-wrap,
 html[data-theme='g90'] .minimap,
-html[data-theme='g90'] .person-panel {
+html[data-theme='g90'] .person-panel,
+html[data-theme='g90'] .timeline-toolbar,
+html[data-theme='g90'] .filter-stripe {
+  background: #161616 !important;
+}
+html[data-theme='g90'] .timeline-toolbar .cds--search-input,
+html[data-theme='g90'] .timeline-toolbar .cds--select-input {
   background: #161616 !important;
 }
 
-html[data-theme='g90'] .timeline-toolbar .cds--search-input,
-html[data-theme='g90'] .timeline-toolbar .cds--select-input {
-  background: #161616;
-}
-
-@media (max-width: 1300px) {
-  .timeline-toolbar.cds--grid {
-    row-gap: 0.25rem;
+/* Tablet/mobile deliberately wrap; desktop maintains one grid row. */
+@media (max-width: 1060px) {
+  .timeline-toolbar > .toolbar-filters {
+    grid-column: 1 / -1 !important;
+    grid-row: 1 !important;
   }
-  .timeline-toolbar > .toolbar-filters,
   .timeline-toolbar > .toolbar-navigation {
-    grid-column: 1 / -1;
+    grid-column: 1 / -1 !important;
+    grid-row: 2 !important;
+    padding-top: 0.25rem !important;
   }
 }
-
-@media (max-width: 670px) {
-  .timeline-toolbar .filter-stripe.cds--grid {
-    row-gap: 0.5rem;
-  }
-  .timeline-toolbar .filter-cell,
-  .timeline-toolbar .filter-count-cell {
-    grid-column: 1 / -1;
+@media (max-width: 620px) {
+  .timeline-toolbar .filter-stripe > .filter-cell:nth-child(1),
+  .timeline-toolbar .filter-stripe > .filter-cell:nth-child(2),
+  .timeline-toolbar .filter-stripe > .filter-cell:nth-child(3),
+  .timeline-toolbar .filter-stripe > .filter-count-cell {
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+    padding-block: 0.25rem !important;
   }
 }
