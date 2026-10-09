@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { scaleLinear } from 'd3'
 import { useTimelineZoom } from '../../hooks/useTimelineZoom'
-import { Information } from '@carbon/icons-react'
+import { Information, Download } from '@carbon/icons-react'
+import { Button } from '@carbon/react'
+import { downloadCSV, downloadSVGAsPNG } from '../../utils/export'
 import TimelineControls from './TimelineControls'
 import TimelineOverview from './TimelineOverview'
 import StaffDetails from '../Staff/StaffDetails'
@@ -18,6 +20,8 @@ export default function InteractiveTimeline({
   onSelect: (s: Staff | null) => void
 }) {
   const root = useRef<HTMLDivElement>(null)
+  const exportSvg = useRef<SVGSVGElement>(null)
+  const [exportError, setExportError] = useState('')
   const [dimensions, setDimensions] = useState({ w: 1050, h: 610 })
   const [hover, setHover] = useState<Staff | null>(null)
   const [cursor, setCursor] = useState<number | null>(null)
@@ -73,7 +77,7 @@ export default function InteractiveTimeline({
       <TimelineOverview lanes={lanes} start={overviewStart} end={overviewEnd}/>
       <div className="canvas-wrap" ref={root}>
         <svg
-          ref={svg}
+          ref={(node) => { svg.current = node; exportSvg.current = node }}
           viewBox={`0 0 ${chartW} ${sceneH}`}
           className="main-canvas"
           role="img"
@@ -88,7 +92,7 @@ export default function InteractiveTimeline({
             setHover(null)
           }}
         >
-          <rect width={chartW} height={sceneH} fill="#161616" />
+          <rect width={chartW} height={sceneH} fill="var(--cds-background)" />
           {ticks.map((y) => (
             <g key={y}>
               <line
@@ -96,13 +100,13 @@ export default function InteractiveTimeline({
                 y1="48"
                 x2={scale(y)}
                 y2={sceneH - 35}
-                stroke="#393939"
+                stroke="var(--cds-border-subtle)"
                 strokeDasharray={y % 10 === 0 ? 'none' : '3 9'}
               />
               <text
                 x={scale(y) + 5}
                 y="30"
-                fill={y % 10 === 0 ? '#f4f4f4' : '#a8a8a8'}
+                fill={y % 10 === 0 ? 'var(--cds-text-primary)' : 'var(--cds-text-secondary)'}
                 fontSize={y % 10 === 0 ? 17 : 11}
                 
               >
@@ -117,7 +121,7 @@ export default function InteractiveTimeline({
               x2={chartW}
               y1={74 + i * laneH + laneH - 2}
               y2={74 + i * laneH + laneH - 2}
-              stroke="#262626"
+              stroke="var(--cds-border-subtle)"
             />
           ))}
           {visible.map(({ person, lane, start, end }) => {
@@ -140,7 +144,7 @@ export default function InteractiveTimeline({
                   rx="2"
                   fill={palette[category(person.job_title_label)]}
                   opacity={faded ? 0.18 : isSelected ? 1 : 0.83}
-                  stroke={isSelected ? 'white' : 'none'}
+                  stroke={isSelected ? 'var(--cds-text-primary)' : 'none'}
                   strokeWidth="2"
                   className="interactive-band"
                   onPointerEnter={() => setHover(person)}
@@ -157,7 +161,7 @@ export default function InteractiveTimeline({
                     x={x + 9}
                     y={y + (laneH - 6) / 2 + 4}
                     fontSize={Math.min(14, laneH * 0.38)}
-                    fill="#fff"
+                    fill="var(--cds-text-on-color)"
                     pointerEvents="none"
                   >
                     {person.agent_name.length > Math.floor((w - 18) / 7)
@@ -178,13 +182,13 @@ export default function InteractiveTimeline({
                 x2={scale(cursor)}
                 y1="44"
                 y2={sceneH - 25}
-                stroke="#f1c21b"
+                stroke="var(--cds-support-warning)"
                 strokeWidth="1"
               />
               <text
                 x={Math.min(chartW - 50, Math.max(4, scale(cursor) + 8))}
                 y={sceneH - 10}
-                fill="#f1c21b"
+                fill="var(--cds-support-warning)"
                 fontSize="12"
                 fontFamily="IBM Plex Mono,monospace"
               >
@@ -213,6 +217,20 @@ export default function InteractiveTimeline({
         <span>
           ZOOM {String(Math.round(view.k * 100))}% · {lanes.length} DATED ENTRIES
         </span>
+      </div>
+      <div className="timeline-export-actions" aria-label="Download timeline">
+        <Button kind="tertiary" size="lg" renderIcon={Download} onClick={() => {
+          setExportError('')
+          try { downloadCSV(people) } catch { setExportError('CSV export failed. Please try again.') }
+        }}>Download CSV</Button>
+        <Button kind="tertiary" size="lg" renderIcon={Download} onClick={async () => {
+          setExportError('')
+          try {
+            if (!exportSvg.current) throw new Error('Timeline unavailable')
+            await downloadSVGAsPNG(exportSvg.current, 'ddr-timeline.png')
+          } catch { setExportError('PNG export failed. Please try again.') }
+        }}>Download PNG</Button>
+        {exportError && <span role="alert" className="timeline-export-error">{exportError}</span>}
       </div>
       {selected && <StaffDetails staff={selected} overlapCount={near} onClose={() => onSelect(null)}/>}
     </div>
