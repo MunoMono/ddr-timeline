@@ -1,14 +1,39 @@
+import { useRef, useState, type PointerEvent } from 'react'
 import { category, palette, MIN, MAX } from '../../models/employment'
 import type { TimelineLane } from '../../utils/timeline'
 import type { DDRPeriod } from '../../hooks/useDDRPeriods'
 
-export default function TimelineOverview({ lanes, start, end, selectedPeriod }: {
+export default function TimelineOverview({ lanes, start, end, selectedPeriod, onScrub }: {
   lanes: TimelineLane[]
   start: number
   end: number
   periods: DDRPeriod[]
   selectedPeriod: DDRPeriod | null
+  onScrub: (year: number) => void
 }) {
+  const scrubRef = useRef<SVGSVGElement>(null)
+  const [dragging, setDragging] = useState(false)
+  const seek = (event: PointerEvent<SVGSVGElement>) => {
+    const node = scrubRef.current
+    if (!node) return
+    const bounds = node.getBoundingClientRect()
+    if (bounds.width <= 0) return
+    const fraction = Math.max(0, Math.min(1, (event.clientX - bounds.left) / bounds.width))
+    onScrub(MIN + fraction * (MAX - MIN))
+  }
+  const startDrag = (event: PointerEvent<SVGSVGElement>) => {
+    if (event.button !== 0 && event.pointerType === 'mouse') return
+    event.preventDefault()
+    event.currentTarget.setPointerCapture(event.pointerId)
+    setDragging(true)
+    seek(event)
+  }
+  const endDrag = (event: PointerEvent<SVGSVGElement>) => {
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId)
+    }
+    setDragging(false)
+  }
   const x = (year: number) => ((year - MIN) / (MAX - MIN)) * 1000
   const lo = Math.max(MIN, Math.min(MAX, start))
   const hi = Math.max(lo, Math.min(MAX, end))
@@ -21,8 +46,25 @@ export default function TimelineOverview({ lanes, start, end, selectedPeriod }: 
         <span>DEPARTMENT OF DESIGN RESEARCH / OVERVIEW</span>
         <span>{selectedPeriod ? selectedPeriod.start : Math.floor(start)} — {selectedPeriod ? selectedPeriod.end : Math.min(1985, Math.ceil(end))}</span>
       </div>
-      <div className="minimap">
-        <svg viewBox="0 0 1000 100" preserveAspectRatio="none" role="img" aria-label="Overview of documented employment periods">
+      <div className={dragging ? "minimap is-scrubbing" : "minimap"}>
+        <svg ref={scrubRef} viewBox="0 0 1000 100" preserveAspectRatio="none"
+          role="slider" tabIndex={0} aria-label="Scrub the historical timeline"
+          aria-valuemin={MIN} aria-valuemax={MAX} aria-valuenow={Math.round((lo + hi) / 2)}
+          aria-valuetext={`Timeline centered around ${Math.round((lo + hi) / 2)}`}
+          onPointerDown={startDrag}
+          onPointerMove={event => { if (dragging) seek(event) }}
+          onPointerUp={endDrag}
+          onPointerCancel={endDrag}
+          onKeyDown={event => {
+            const center = (lo + hi) / 2
+            if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+              event.preventDefault()
+              onScrub(center + (event.key === 'ArrowLeft' ? -0.5 : 0.5))
+            } else if (event.key === 'Home' || event.key === 'End') {
+              event.preventDefault()
+              onScrub(event.key === 'Home' ? MIN : MAX)
+            }
+          }}>
           {lanes.map(d => {
             const from = Math.max(MIN, d.start)
             const to = Math.min(MAX, d.end + 1)
