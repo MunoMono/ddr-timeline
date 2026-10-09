@@ -710,3 +710,38 @@ html[data-theme='g10'] .ddr-app-shell > .cds--header { background: #161616; colo
 .timeline-period-band { cursor:pointer; }
 .timeline-period-band:focus-visible { outline:2px solid var(--cds-focus); }
 .timeline-period-note { padding:.5rem clamp(18px,3vw,58px); color:var(--cds-text-secondary); font-size:.75rem; }
+
+/* Integrated proportional historical slide rule */
+.phase-slide-rule { padding: .5rem clamp(18px,3vw,58px) 1rem; background:var(--cds-background); border-bottom:1px solid var(--cds-border-subtle); }
+.phase-rail-meta { display:flex; align-items:center; justify-content:space-between; gap:1rem; font: .7rem 'IBM Plex Mono',monospace; letter-spacing:.025em; color:var(--cds-text-secondary); }
+.phase-rail-qualifier { text-transform:none; letter-spacing:0; }
+.phase-rule { position:relative; height:5.5rem; width:100%; border-block:1px solid var(--cds-border-subtle); background:var(--cds-layer); overflow:visible; }
+.phase-rule-slot { position:absolute; height:100%; top:0; min-width:0; }
+.phase-rule-slot::before { content:''; position:absolute; height:100%; left:0; border-left:1px dotted var(--cds-text-secondary); opacity:.7; pointer-events:none; }
+.phase-rule-button { display:flex; flex-direction:column; align-items:flex-start; gap:.35rem; width:100%; height:100%; border:0; border-top:3px solid transparent; background:transparent; color:var(--cds-text-primary); padding:.5rem .4rem; text-align:left; cursor:pointer; position:relative; }
+.phase-rule-button:hover { background:var(--cds-layer-hover); }
+.phase-rule-button[aria-pressed='true'] { background:var(--cds-layer-selected); border-top-color:var(--cds-focus); }
+.phase-rule-button:focus-visible { outline:2px solid var(--cds-focus); outline-offset:-2px; z-index:5; }
+.phase-rule-dates { font:.64rem 'IBM Plex Mono',monospace; color:var(--cds-text-secondary); white-space:nowrap; }
+.phase-rule-title { font-size:.73rem; line-height:1.25; font-weight:600; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; overflow-wrap:anywhere; }
+.phase-tooltip { pointer-events:none; display:none; position:absolute; z-index:30; left:0; bottom:calc(100% + .35rem); width: min(18rem, 80vw); background:var(--cds-layer-02); color:var(--cds-text-primary); border:1px solid var(--cds-border-strong); box-shadow:0 3px 12px rgba(0,0,0,.16); padding:.85rem; text-align:left; line-height:1.45; letter-spacing:0; }
+.phase-rule-slot:nth-last-child(-n+2) .phase-tooltip { left:auto; right:0; }
+.phase-tooltip strong,.phase-tooltip span,.phase-tooltip small { display:block; margin-bottom:.4rem; font-size:.8rem; }
+.phase-tooltip small { color:var(--cds-text-secondary); font-size:.7rem; }
+.phase-rule-button:hover .phase-tooltip,.phase-rule-button:focus-visible .phase-tooltip { display:block; }
+.period-transition .timeline-entity { animation: period-reveal 420ms cubic-bezier(.2,.65,.3,1) both; }
+@keyframes period-reveal { from { opacity:.12; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
+@media (prefers-reduced-motion:reduce) { .period-transition .timeline-entity { animation:none; } }
+@media (max-width:800px) { .phase-rule { height:6.5rem; } .phase-rule-title { font-size:.65rem; } .phase-rail-qualifier { display:none; } }
+
+.phase-rule-svg { display:block; width:100%; height:5.625rem; border-block:1px solid var(--cds-border-subtle); background:var(--cds-layer); overflow:visible; }
+.phase-rule-mark { cursor:pointer; }
+.phase-rule-mark:focus { outline:none; }
+.phase-rule-mark:focus .phase-mark-background,.phase-rule-mark:hover .phase-mark-background { fill:var(--cds-layer-hover); }
+.phase-mark-background { fill:var(--cds-layer); }
+.phase-mark-active { fill:var(--cds-layer-selected); stroke:var(--cds-focus); stroke-width:2; }
+.phase-rule-boundary { stroke:var(--cds-text-secondary); stroke-dasharray:1 5; stroke-width:1; }
+.phase-mark-years { fill:var(--cds-text-secondary); font:11px 'IBM Plex Mono',monospace; }
+.phase-mark-name { fill:var(--cds-text-primary); font:600 11px 'IBM Plex Sans',sans-serif; }
+.phase-rule-mark:focus .phase-mark-name,.phase-rule-mark:hover .phase-mark-name { fill:var(--cds-link-primary); }
+.phase-rule-hint { font-size:.7rem; color:var(--cds-text-secondary); margin:.4rem 0 0; }

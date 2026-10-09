@@ -6,6 +6,7 @@ import { Button } from '@carbon/react'
 import { downloadCSV, downloadSVGAsPNG } from '../../utils/export'
 import TimelineControls from './TimelineControls'
 import TimelineOverview from './TimelineOverview'
+import PeriodSelector from './PeriodSelector'
 import StaffDetails from '../Staff/StaffDetails'
 import { category, palette, MIN, MAX, year, type Staff } from '../../models/employment'
 import { packEmploymentLanes } from '../../utils/timeline'
@@ -17,12 +18,16 @@ export default function InteractiveTimeline({
   onSelect,
   periods,
   selectedPeriod,
+  periodStatus,
+  onPeriodSelect,
 }: {
   people: Staff[]
   selected: Staff | null
   onSelect: (s: Staff | null) => void
   periods: DDRPeriod[]
   selectedPeriod: DDRPeriod | null
+  periodStatus: 'loading' | 'live' | 'unavailable'
+  onPeriodSelect: (period: DDRPeriod | null) => void
 }) {
   const root = useRef<HTMLDivElement>(null)
   const [exportError, setExportError] = useState('')
@@ -79,6 +84,7 @@ export default function InteractiveTimeline({
     <div className="explorer">
       <TimelineControls navigate={act}/>
       <TimelineOverview lanes={lanes} start={overviewStart} end={overviewEnd} periods={periods} selectedPeriod={selectedPeriod}/>
+      <PeriodSelector periods={periods} selected={selectedPeriod} status={periodStatus} onSelect={onPeriodSelect}/>
       <div className="canvas-wrap" ref={root}>
         <svg
           ref={svg}
@@ -98,6 +104,13 @@ export default function InteractiveTimeline({
         >
           <rect width={chartW} height={sceneH} fill="var(--cds-background)" />
           {selectedPeriod && <rect x={scale(selectedPeriod.start)} y={40} width={Math.max(0,scale(selectedPeriod.end+1)-scale(selectedPeriod.start))} height={sceneH-65} fill="var(--cds-highlight)" opacity={0.32} pointerEvents="none" />}
+          {periods.filter(p => p.slug !== '1965-1985').map(p => (
+            <g key={'period-boundary-' + p.slug} pointerEvents="none">
+              <line x1={scale(p.start)} x2={scale(p.start)} y1={44} y2={sceneH - 26}
+                stroke="var(--cds-text-secondary)" strokeWidth={0.8} strokeDasharray="1 7"
+                opacity={selectedPeriod?.slug === p.slug ? 0.85 : 0.3} />
+            </g>
+          ))}
           {ticks.map((y) => (
             <g key={y}>
               <line
@@ -129,6 +142,7 @@ export default function InteractiveTimeline({
               stroke="var(--cds-border-subtle)"
             />
           ))}
+          <g key={selectedPeriod?.slug || "all"} className="period-transition">
           {visible.map(({ person, lane, start, end }) => {
             const x = scale(Math.max(start, MIN)),
               right = scale(Math.min(end + 1, MAX)),
@@ -180,6 +194,7 @@ export default function InteractiveTimeline({
               </g>
             )
           })}
+          </g>
           {cursor !== null && cursor >= MIN && cursor <= MAX && (
             <g pointerEvents="none">
               <line
