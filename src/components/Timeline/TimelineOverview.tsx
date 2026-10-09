@@ -99,8 +99,9 @@ export default function TimelineOverview({ lanes, start, end, onScrub, onWindowC
           {focusWidth < 998 && (
             <rect x={left} width={focusWidth} y={1} height={98} fill="var(--cds-highlight)" fillOpacity={0.22} pointerEvents="none" />
           )}
-          <rect className="minimap-resize-handle" x={Math.max(0, left - 4)} width={8} y={0} height={100} rx={1} fill="var(--cds-focus)" />
-          <rect className="minimap-resize-handle" x={Math.min(992, right - 4)} width={8} y={0} height={100} rx={1} fill="var(--cds-focus)" />
+          {/* Slim visual grips; the existing 15px pointer tolerance preserves easy resizing. */}
+          <rect className="minimap-resize-handle" x={Math.max(0, Math.min(996, left - 2))} width={4} y={12} height={76} rx={2} />
+          <rect className="minimap-resize-handle" x={Math.max(0, Math.min(996, right - 2))} width={4} y={12} height={76} rx={2} />
         </svg>
       </div>
       <div className="minimap-labels" aria-hidden="true">
