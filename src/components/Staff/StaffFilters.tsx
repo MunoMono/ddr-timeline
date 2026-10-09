@@ -1,4 +1,4 @@
-import { Search, Select, SelectItem } from '@carbon/react'
+import { Grid, Column, Search, Select, SelectItem } from '@carbon/react'
 import { categories } from '../../models/employment'
 import type { DDRPeriod } from '../../hooks/useDDRPeriods'
 
@@ -9,16 +9,23 @@ export default function StaffFilters({
   periods:DDRPeriod[];periodStatus:'loading'|'live'|'unavailable';period:DDRPeriod|null;
   onPeriod:(slug:string)=>void
 }) {
-  return <section className="filter-stripe" aria-label="Staff filters">
-    <div className="find"><Search size="md" labelText="Find staff" placeholder="Find someone in the archive…" value={search} onChange={e=>onSearch(e.target.value)}/></div>
-    <Select id="role-select" labelText="Role family" value={role} onChange={e=>onRole(e.target.value)}>
-      {categories.map(c=><SelectItem key={c} value={c} text={c}/>)}
-    </Select>
-    <Select id="period-select" labelText="Critical period (researcher's interpretation)" value={period?.slug||''}
-      disabled={periodStatus !== 'live'} onChange={e=>onPeriod(e.target.value)}>
-      <SelectItem value="" text={periodStatus==='loading'?'Loading periods…':periodStatus==='unavailable'?'Periods unavailable':'All periods'}/>
-      {periods.filter(p=>p.slug!=='1965-1985').map(p=><SelectItem key={p.slug} value={p.slug} text={p.start+'–'+p.end+' · '+p.label}/>)}
-    </Select>
-    <div className="filter-counter"><span>{count} MATCHES</span></div>
-  </section>
+  return <Grid condensed className="filter-stripe" aria-label="Staff filters">
+    <Column sm={4} md={3} lg={5} className="filter-cell">
+      <label className="cds--label filter-search-label" htmlFor="staff-search">Search staff</label>
+      <Search id="staff-search" size="md" labelText="Search staff" placeholder="Find someone in the archive…" value={search} onChange={e=>onSearch(e.target.value)}/>
+    </Column>
+    <Column sm={4} md={2} lg={4} className="filter-cell">
+      <Select id="role-select" labelText="Role family" value={role} onChange={e=>onRole(e.target.value)}>
+        {categories.map(c=><SelectItem key={c} value={c} text={c}/>)}
+      </Select>
+    </Column>
+    <Column sm={4} md={3} lg={5} className="filter-cell">
+      <Select id="period-select" labelText="Critical period" value={period?.slug||''}
+        disabled={periodStatus !== 'live'} onChange={e=>onPeriod(e.target.value)}>
+        <SelectItem value="" text={periodStatus==='loading'?'Loading periods…':periodStatus==='unavailable'?'Periods unavailable':'All periods'}/>
+        {periods.filter(p=>p.slug!=='1965-1985').map(p=><SelectItem key={p.slug} value={p.slug} text={p.start+'–'+p.end+' · '+p.label}/>)}
+      </Select>
+    </Column>
+    <Column sm={4} md={8} lg={2} className="filter-count-cell"><span className="filter-counter">{count} MATCHES</span></Column>
+  </Grid>
 }
