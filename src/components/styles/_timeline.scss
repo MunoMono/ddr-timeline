@@ -729,9 +729,9 @@ html[data-theme='g10'] .ddr-app-shell > .cds--header { background: #161616; colo
 .phase-tooltip strong,.phase-tooltip span,.phase-tooltip small { display:block; margin-bottom:.4rem; font-size:.8rem; }
 .phase-tooltip small { color:var(--cds-text-secondary); font-size:.7rem; }
 .phase-rule-button:hover .phase-tooltip,.phase-rule-button:focus-visible .phase-tooltip { display:block; }
-.period-changing .timeline-entity { animation: period-reveal 420ms cubic-bezier(.2,.65,.3,1) both; }
+.period-transition .timeline-entity { animation: period-reveal 420ms cubic-bezier(.2,.65,.3,1) both; }
 @keyframes period-reveal { from { opacity:.12; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
-@media (prefers-reduced-motion:reduce) { .period-changing .timeline-entity { animation:none; } }
+@media (prefers-reduced-motion:reduce) { .period-transition .timeline-entity { animation:none; } }
 @media (max-width:800px) { .phase-rule { height:6.5rem; } .phase-rule-title { font-size:.65rem; } .phase-rail-qualifier { display:none; } }
 
 .phase-rule-svg { display:block; width:100%; height:5.625rem; border-block:1px solid var(--cds-border-subtle); background:var(--cds-layer); overflow:visible; }
