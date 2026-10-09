@@ -16,8 +16,9 @@ test('immersive canvas renders sourced bands and accessible controls on mobile',
   await page.getByRole('button', { name: 'Reset view' }).click()
   await page.getByRole('searchbox').fill('Janet Daley')
   await expect(page.locator('.interactive-band')).toHaveCount(1)
-  await page.locator('.interactive-band').first().click()
-  await expect(page.getByRole('heading', { name: 'Janet Daley' })).toBeVisible()
+  await page.locator('.interactive-band').first().hover()
+  await expect(page.getByRole('tooltip', { name: 'Documented staff details for Janet Daley' })).toBeVisible()
+  await expect(page.locator('.person-panel')).toHaveCount(0)
   await page.setViewportSize({ width: 375, height: 812 })
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth > innerWidth),
