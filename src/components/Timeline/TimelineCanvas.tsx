@@ -6,7 +6,6 @@ import { Button } from '@carbon/react'
 import { downloadCSV, downloadSVGAsPNG } from '../../utils/export'
 import TimelineControls from './TimelineControls'
 import TimelineOverview from './TimelineOverview'
-import PeriodSelector from './PeriodSelector'
 import StaffDetails from '../Staff/StaffDetails'
 import { category, palette, MIN, MAX, year, type Staff } from '../../models/employment'
 import { packEmploymentLanes } from '../../utils/timeline'
@@ -18,16 +17,12 @@ export default function InteractiveTimeline({
   onSelect,
   periods,
   selectedPeriod,
-  periodStatus,
-  onPeriodSelect,
 }: {
   people: Staff[]
   selected: Staff | null
   onSelect: (s: Staff | null) => void
   periods: DDRPeriod[]
   selectedPeriod: DDRPeriod | null
-  periodStatus: 'loading' | 'live' | 'unavailable'
-  onPeriodSelect: (period: DDRPeriod | null) => void
 }) {
   const root = useRef<HTMLDivElement>(null)
   const [exportError, setExportError] = useState('')
@@ -38,7 +33,7 @@ export default function InteractiveTimeline({
   const lanes = useMemo(() => packEmploymentLanes(people), [people])
   const laneCount = Math.max(1, ...lanes.map((d) => d.lane + 1))
   const laneH = Math.max(27, Math.min(48, 450 / laneCount))
-  const sceneH = Math.max(400, laneCount * laneH + 116)
+  const sceneH = Math.max(440, laneCount * laneH + 156)
   const { svg, view, navigate: act } = useTimelineZoom(chartW, sceneH)
   const left = 26
   const base = scaleLinear()
@@ -84,7 +79,6 @@ export default function InteractiveTimeline({
     <div className="explorer">
       <TimelineControls navigate={act}/>
       <TimelineOverview lanes={lanes} start={overviewStart} end={overviewEnd} periods={periods} selectedPeriod={selectedPeriod}/>
-      <PeriodSelector periods={periods} selected={selectedPeriod} status={periodStatus} onSelect={onPeriodSelect}/>
       <div className="canvas-wrap" ref={root}>
         <svg
           ref={svg}
@@ -103,19 +97,26 @@ export default function InteractiveTimeline({
           }}
         >
           <rect width={chartW} height={sceneH} fill="var(--cds-background)" />
-          {selectedPeriod && <rect x={scale(selectedPeriod.start)} y={40} width={Math.max(0,scale(selectedPeriod.end+1)-scale(selectedPeriod.start))} height={sceneH-65} fill="var(--cds-highlight)" opacity={0.32} pointerEvents="none" />}
-          {periods.filter(p => p.slug !== '1965-1985').map(p => (
-            <g key={'period-boundary-' + p.slug} pointerEvents="none">
-              <line x1={scale(p.start)} x2={scale(p.start)} y1={44} y2={sceneH - 26}
-                stroke="var(--cds-text-secondary)" strokeWidth={0.8} strokeDasharray="1 7"
-                opacity={selectedPeriod?.slug === p.slug ? 0.85 : 0.3} />
+          {selectedPeriod && <rect x={scale(selectedPeriod.start)} y={86} width={Math.max(0,scale(selectedPeriod.end+1)-scale(selectedPeriod.start))} height={sceneH-110} fill="var(--cds-highlight)" opacity={0.32} pointerEvents="none" />}
+          {periods.filter(p => p.slug !== '1965-1985').map(p => {
+            const x = scale(p.start)
+            const w = Math.max(0, scale(p.end + 1) - x)
+            const label = w >= 140 ? p.label : w >= 90 ? p.label.slice(0, 12) + '…' : p.start + '–' + p.end
+            return <g key={'stage-' + p.slug} pointerEvents="none">
+              <title>{p.label} ({p.start}–{p.end}) — {p.description || 'No description recorded.'} Researcher's interpretation, not an official RCA phase.</title>
+              <line x1={x} x2={x} y1={12} y2={sceneH - 26}
+                stroke="var(--cds-text-secondary)" strokeWidth={1} strokeDasharray="1 7"
+                opacity={selectedPeriod?.slug === p.slug ? 0.85 : 0.38} />
+              <text x={x + 5} y={27} fontSize={11} className="stage-label"
+                fill="var(--cds-text-secondary)">{label}</text>
             </g>
-          ))}
+          })}
+          <line x1={0} x2={chartW} y1={45} y2={45} stroke="var(--cds-border-subtle)" />
           {ticks.map((y) => (
             <g key={y}>
               <line
                 x1={scale(y)}
-                y1="48"
+                y1="88"
                 x2={scale(y)}
                 y2={sceneH - 35}
                 stroke="var(--cds-border-subtle)"
@@ -123,7 +124,7 @@ export default function InteractiveTimeline({
               />
               <text
                 x={scale(y) + 5}
-                y="30"
+                y="72"
                 fill={y % 10 === 0 ? 'var(--cds-text-primary)' : 'var(--cds-text-secondary)'}
                 fontSize={y % 10 === 0 ? 17 : 11}
                 
@@ -137,7 +138,7 @@ export default function InteractiveTimeline({
               key={i}
               x1="0"
               x2={chartW}
-              y1={74 + i * laneH + laneH - 2}
+              y1={114 + i * laneH + laneH - 2}
               y2={74 + i * laneH + laneH - 2}
               stroke="var(--cds-border-subtle)"
             />
@@ -147,7 +148,7 @@ export default function InteractiveTimeline({
             const x = scale(Math.max(start, MIN)),
               right = scale(Math.min(end + 1, MAX)),
               w = Math.max(3, right - x),
-              y = 75 + lane * laneH
+              y = 115 + lane * laneH
             const isSelected = person.staff_code === selected?.staff_code
             const faded =
               selected &&
@@ -200,7 +201,7 @@ export default function InteractiveTimeline({
               <line
                 x1={scale(cursor)}
                 x2={scale(cursor)}
-                y1="44"
+                y1="86"
                 y2={sceneH - 25}
                 stroke="var(--cds-support-warning)"
                 strokeWidth="1"
