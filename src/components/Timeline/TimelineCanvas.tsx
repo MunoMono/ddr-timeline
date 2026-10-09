@@ -31,12 +31,6 @@ export default function InteractiveTimeline({
 }) {
   const root = useRef<HTMLDivElement>(null)
   const [exportError, setExportError] = useState('')
-  const [animating, setAnimating] = useState(false)
-  useEffect(() => {
-    setAnimating(true)
-    const timer = window.setTimeout(() => setAnimating(false), 420)
-    return () => window.clearTimeout(timer)
-  }, [selectedPeriod?.slug])
   const [dimensions, setDimensions] = useState({ w: 1050, h: 610 })
   const [hover, setHover] = useState<Staff | null>(null)
   const [cursor, setCursor] = useState<number | null>(null)
@@ -91,7 +85,7 @@ export default function InteractiveTimeline({
       <TimelineControls navigate={act}/>
       <TimelineOverview lanes={lanes} start={overviewStart} end={overviewEnd} periods={periods} selectedPeriod={selectedPeriod}/>
       <PeriodSelector periods={periods} selected={selectedPeriod} status={periodStatus} onSelect={onPeriodSelect}/>
-      <div className={`canvas-wrap${animating ? " period-changing" : ""}`} ref={root}>
+      <div className="canvas-wrap" ref={root}>
         <svg
           ref={svg}
           viewBox={`0 0 ${chartW} ${sceneH}`}
@@ -148,6 +142,7 @@ export default function InteractiveTimeline({
               stroke="var(--cds-border-subtle)"
             />
           ))}
+          <g key={selectedPeriod?.slug || "all"} className="period-transition">
           {visible.map(({ person, lane, start, end }) => {
             const x = scale(Math.max(start, MIN)),
               right = scale(Math.min(end + 1, MAX)),
@@ -199,6 +194,7 @@ export default function InteractiveTimeline({
               </g>
             )
           })}
+          </g>
           {cursor !== null && cursor >= MIN && cursor <= MAX && (
             <g pointerEvents="none">
               <line
