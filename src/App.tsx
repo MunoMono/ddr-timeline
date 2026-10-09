@@ -6,6 +6,9 @@ import { useEmployment } from './hooks/useEmployment'
 import TimelineHeader from './components/Header/TimelineHeader'
 import StaffFilters from './components/Staff/StaffFilters'
 import TimelineCanvas from './components/Timeline/TimelineCanvas'
+import PeriodSelector from './components/Timeline/PeriodSelector'
+import { useDDRPeriods, type DDRPeriod } from './hooks/useDDRPeriods'
+import { year } from './models/employment'
 
 const THEME_KEY = 'ddr-timeline-theme'
 export default function App() {
@@ -17,14 +20,17 @@ export default function App() {
     try { window.localStorage.setItem(THEME_KEY, dark ? 'g90' : 'g10') } catch { /* Storage disabled */ }
   }, [dark])
   const { people, source } = useEmployment()
+  const { periods, status: periodStatus } = useDDRPeriods()
+  const [period, setPeriod] = useState<DDRPeriod | null>(null)
   const [search, setSearch] = useState('')
   const [role, setRole] = useState('All roles')
   const [selected, setSelected] = useState<Staff | null>(null)
   const filtered = useMemo(() =>
     people.filter(p =>
+      (!period || (year(p.start_date) !== null && year(p.end_date) !== null && year(p.start_date)! <= period.end && year(p.end_date)! >= period.start)) &&
       (role === 'All roles' || category(p.job_title_label) === role) &&
       `${p.agent_name} ${p.job_title_label}`.toLowerCase().includes(search.toLowerCase())
-    ), [people, role, search])
+    ), [people, role, search, period])
   return <Theme theme={dark ? 'g90' : 'g10'}>
     <div className="ddr-app-shell">
       <Header aria-label="DDR timeline application">
@@ -39,7 +45,8 @@ export default function App() {
       <main className="redesign">
     <TimelineHeader source={source} count={people.length}/>
     <StaffFilters search={search} onSearch={setSearch} role={role} onRole={setRole} count={filtered.length}/>
-    <TimelineCanvas people={filtered} selected={selected} onSelect={setSelected}/>
+    <PeriodSelector periods={periods} status={periodStatus} selected={period} onSelect={(next) => { setPeriod(next); setSelected(null) }}/>
+    <TimelineCanvas people={filtered} selected={selected} onSelect={setSelected} periods={periods} selectedPeriod={period}/>
       </main>
     </div>
   </Theme>

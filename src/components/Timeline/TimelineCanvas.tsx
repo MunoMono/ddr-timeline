@@ -9,15 +9,20 @@ import TimelineOverview from './TimelineOverview'
 import StaffDetails from '../Staff/StaffDetails'
 import { category, palette, MIN, MAX, year, type Staff } from '../../models/employment'
 import { packEmploymentLanes } from '../../utils/timeline'
+import type { DDRPeriod } from '../../hooks/useDDRPeriods'
 
 export default function InteractiveTimeline({
   people,
   selected,
   onSelect,
+  periods,
+  selectedPeriod,
 }: {
   people: Staff[]
   selected: Staff | null
   onSelect: (s: Staff | null) => void
+  periods: DDRPeriod[]
+  selectedPeriod: DDRPeriod | null
 }) {
   const root = useRef<HTMLDivElement>(null)
   const [exportError, setExportError] = useState('')
@@ -73,7 +78,7 @@ export default function InteractiveTimeline({
   return (
     <div className="explorer">
       <TimelineControls navigate={act}/>
-      <TimelineOverview lanes={lanes} start={overviewStart} end={overviewEnd}/>
+      <TimelineOverview lanes={lanes} start={overviewStart} end={overviewEnd} periods={periods} selectedPeriod={selectedPeriod}/>
       <div className="canvas-wrap" ref={root}>
         <svg
           ref={svg}
@@ -92,6 +97,7 @@ export default function InteractiveTimeline({
           }}
         >
           <rect width={chartW} height={sceneH} fill="var(--cds-background)" />
+          {selectedPeriod && <rect x={scale(selectedPeriod.start)} y={40} width={Math.max(0,scale(selectedPeriod.end+1)-scale(selectedPeriod.start))} height={sceneH-65} fill="var(--cds-highlight)" opacity={0.32} pointerEvents="none" />}
           {ticks.map((y) => (
             <g key={y}>
               <line
@@ -208,6 +214,7 @@ export default function InteractiveTimeline({
           </div>
         )}
       </div>
+      {selectedPeriod && <p className="timeline-period-note">Slice: {selectedPeriod.label} ({selectedPeriod.start}–{selectedPeriod.end}). Showing staff whose documented tenure overlaps this interpretative period; overlap does not establish participation in any particular activity.</p>}
       <div className="under-canvas">
         <span>
           <Information size={16} /> Employment dates shown as recorded; overlapping
