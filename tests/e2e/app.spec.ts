@@ -86,3 +86,26 @@ test('overview and chart have equal Carbon side gutters', async ({ page }) => {
   expect(Math.abs(spacing.headingLeft - spacing.left)).toBeLessThan(2)
   expect(Math.abs(spacing.labelsLeft - spacing.left)).toBeLessThan(2)
 })
+
+test('critical period selection snaps zoom to its inclusive calendar boundaries', async ({ page }) => {
+  await page.setViewportSize({ width: 1600, height: 900 })
+  await page.route('https://api.ddrarchive.org/graphql', async (route) => {
+    const body = route.request().postData() ?? ''
+    if (body.includes('ref_ddr_period')) {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+        data: { ref_ddr_period: [
+          { slug: '1973-79', label: 'Peak productivity', description: 'Interpretative phase' },
+          { slug: '1984-85', label: 'Institutional decline', description: null },
+        ] },
+      }) })
+    } else {
+      await route.abort()
+    }
+  })
+  await page.goto('/')
+  await page.locator('#period-select').selectOption('1973-79')
+  await expect(page.getByText(/ZOOM 300%/)).toBeVisible()
+  await expect(page.locator('.overview-top')).toContainText('1973 — 1979')
+  await page.locator('#period-select').selectOption('')
+  await expect(page.getByText(/ZOOM 100%/)).toBeVisible()
+})
