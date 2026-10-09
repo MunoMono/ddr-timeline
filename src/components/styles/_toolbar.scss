@@ -83,3 +83,34 @@ html[data-theme='g90'] .timeline-toolbar .cds--select-input { background: #16161
   gap: 0;
 }
 .redesign .timeline-toolbar .nav-actions { align-items: flex-start; }
+
+/* UAT: toolbar must occupy one compact control row, not the height
+   inherited from legacy explorer/navigation wrappers. */
+@media (min-width: 1081px) {
+  .redesign .explorer .timeline-toolbar {
+    height: 5rem;
+    min-height: 0;
+    max-height: 5rem;
+    grid-template-rows: minmax(0, 1fr);
+    align-items: start;
+    overflow: visible;
+  }
+  .redesign .timeline-toolbar .toolbar-filters,
+  .redesign .timeline-toolbar .toolbar-navigation {
+    height: 4.25rem;
+    min-height: 0;
+    max-height: 4.25rem;
+    align-self: start;
+  }
+  .redesign .timeline-toolbar .filter-stripe {
+    height: 4.25rem;
+    min-height: 0;
+    max-height: 4.25rem;
+  }
+  .redesign .timeline-toolbar .explorer-top,
+  .redesign .timeline-toolbar .navigation {
+    height: 4rem;
+    min-height: 0;
+    max-height: 4rem;
+  }
+}
