@@ -105,7 +105,7 @@ test('critical period selection snaps zoom to its inclusive calendar boundaries'
   await page.goto('/')
   await page.locator('#period-select').selectOption('1973-79')
   await expect(page.getByText(/ZOOM 300%/)).toBeVisible()
-  await expect(page.locator('.overview-top')).toContainText('1973 — 1979')
+  await expect(page.locator('.overview-top')).toContainText('1973.0 — 1980.0')
   await page.locator('#period-select').selectOption('')
   await expect(page.getByText(/ZOOM 100%/)).toBeVisible()
 })
