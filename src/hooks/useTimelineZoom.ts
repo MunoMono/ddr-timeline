@@ -3,7 +3,7 @@ import { select, zoom, zoomIdentity, type ZoomBehavior } from 'd3'
 
 export type TimelineNavAction = 'in' | 'out' | 'reset' | 'left' | 'right'
 
-export function useTimelineZoom(width: number, height: number) {
+export function useTimelineZoom(width: number, height: number, periodStart?: number, periodEnd?: number) {
   const svg = useRef<SVGSVGElement>(null)
   const zoomRef = useRef<ZoomBehavior<SVGSVGElement, unknown> | null>(null)
   const [view, setView] = useState({ k: 1, x: 0 })
@@ -22,17 +22,20 @@ export function useTimelineZoom(width: number, height: number) {
     return () => { select(element).on('.zoom', null) }
   }, [width, height])
 
-  /** Snap the viewport to a calendar interval, including its final year. */
-  function snapToRange(start: number, endExclusive: number) {
-    if (!svg.current || !zoomRef.current || endExclusive <= start) return
-    const k = Math.max(1, Math.min(12, 21 / (endExclusive - start)))
+  useEffect(() => {
+    if (!svg.current || !zoomRef.current) return
+    const endExclusive = periodEnd === undefined ? undefined : periodEnd + 1
+    const start = periodStart ?? 1965
+    const finish = endExclusive ?? 1986
+    if (finish <= start) return
+    const k = Math.max(1, Math.min(12, 21 / (finish - start)))
     const plotWidth = width - 48
     const x = -((start - 1965) / 21) * plotWidth * k
     select(svg.current).interrupt().call(
       zoomRef.current.transform,
       zoomIdentity.translate(x, 0).scale(k),
     )
-  }
+  }, [periodStart, periodEnd, width])
 
   function navigate(action: TimelineNavAction) {
     if (!svg.current || !zoomRef.current) return
@@ -44,5 +47,5 @@ export function useTimelineZoom(width: number, height: number) {
     else target.call(behavior.translateBy, action === 'left' ? 110 : -110, 0)
   }
 
-  return { svg, view, navigate, snapToRange }
+  return { svg, view, navigate }
 }
