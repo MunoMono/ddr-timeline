@@ -60,3 +60,29 @@ test('desktop layout uses a unified background and a compact 24px toolbar gap', 
   expect(Math.abs(metrics.roleTop - metrics.periodTop)).toBeLessThan(8)
   expect(Math.abs(metrics.buttonsTop - metrics.searchTop)).toBeLessThan(12)
 })
+
+test('overview and chart have equal Carbon side gutters', async ({ page }) => {
+  await page.route('https://api.ddrarchive.org/graphql', (route) => route.abort())
+  await page.setViewportSize({ width: 1600, height: 900 })
+  await page.goto('/')
+  const spacing = await page.evaluate(() => {
+    const section = document.querySelector('.overview')!.getBoundingClientRect()
+    const overview = document.querySelector('.minimap')!.getBoundingClientRect()
+    const chart = document.querySelector('.main-canvas')!.getBoundingClientRect()
+    const title = document.querySelector('.overview-top')!.getBoundingClientRect()
+    const labels = document.querySelector('.minimap-labels')!.getBoundingClientRect()
+    return {
+      left: overview.left - section.left,
+      right: section.right - overview.right,
+      chartLeft: chart.left - section.left,
+      chartRight: section.right - chart.right,
+      headingLeft: title.left - section.left,
+      labelsLeft: labels.left - section.left,
+    }
+  })
+  expect(Math.abs(spacing.left - spacing.right)).toBeLessThan(2)
+  expect(Math.abs(spacing.chartLeft - spacing.left)).toBeLessThan(2)
+  expect(Math.abs(spacing.chartRight - spacing.right)).toBeLessThan(20)
+  expect(Math.abs(spacing.headingLeft - spacing.left)).toBeLessThan(2)
+  expect(Math.abs(spacing.labelsLeft - spacing.left)).toBeLessThan(2)
+})
