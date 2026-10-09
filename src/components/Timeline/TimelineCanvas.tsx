@@ -155,11 +155,6 @@ export default function InteractiveTimeline({
               right = scale(Math.min(end + 1, MAX)),
               w = Math.max(3, right - x),
               y = 115 + lane * laneH
-            // Keep labels in the visible viewport when a tenure starts before
-            // the selected critical period; its original bar remains unchanged.
-            const labelX = Math.max(left + 9, x + 9)
-            const visibleLabelWidth = Math.max(0, Math.min(chartW - 22, right) - labelX - 9)
-            const maxLabelChars = Math.floor(visibleLabelWidth / 7)
             const isSelected = person.staff_code === selected?.staff_code
             const faded =
               selected &&
@@ -193,23 +188,39 @@ export default function InteractiveTimeline({
                     {person.agent_name} · {start}–{end}
                   </title>
                 </rect>
-                {visibleLabelWidth > 35 && (
-                  <text
-                    className="band-label"
-                    x={labelX}
-                    y={y + (laneH - 6) / 2 + 4}
-                    fontSize={Math.min(14, laneH * 0.38)}
-                    fill="var(--cds-text-on-color)"
-                    pointerEvents="none"
-                  >
-                    {person.agent_name.length > maxLabelChars
-                      ? person.agent_name.slice(0, Math.max(3, maxLabelChars - 1)) + '…'
-                      : person.agent_name}
-                  </text>
-                )}
+
               </g>
             )
           })}
+          </g>
+          {/* Labels are drawn ABOVE every band, in viewport coordinates.
+              This remains correct when an employment interval starts years
+              before the currently visible critical period. */}
+          <g className="staff-label-overlay" pointerEvents="none" aria-hidden="true">
+            {visible.map(({ person, lane, start, end }) => {
+              const visibleStart = Math.max(start, overviewStart)
+              const visibleEnd = Math.min(end + 1, overviewEnd)
+              if (visibleEnd <= visibleStart) return null
+              const first = Math.max(left, scale(visibleStart))
+              const last = Math.min(chartW - 22, scale(visibleEnd))
+              const usable = last - first - 18
+              if (usable < 38) return null
+              const maxCharacters = Math.floor(usable / 6.8)
+              const name = person.agent_name
+              const label = name.length > maxCharacters
+                ? name.slice(0, Math.max(3, maxCharacters - 1)) + '…'
+                : name
+              return (
+                <text
+                  key={person.staff_code}
+                  className="band-label"
+                  x={first + 9}
+                  y={115 + lane * laneH + (laneH - 6) / 2 + 4}
+                  fontSize={Math.min(14, laneH * 0.38)}
+                  fill="var(--cds-text-on-color)"
+                >{label}</text>
+              )
+            })}
           </g>
           {cursor !== null && cursor >= MIN && cursor <= MAX && (
             <g pointerEvents="none">
