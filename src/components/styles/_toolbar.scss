@@ -1,114 +1,135 @@
-/* Single-line toolbar: explicit layout, Carbon controls and tokens. */
-.timeline-toolbar {
+/* Carbon toolbar: one grid row, with spacing-07 (1.5rem) on each side. */
+.redesign .explorer .timeline-toolbar {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: 1rem;
+  grid-template-rows: 4rem;
+  column-gap: 1rem;
   align-items: start;
+  height: 7rem;
+  min-height: 7rem;
+  max-height: 7rem;
   margin: 0;
-  padding: 0.375rem clamp(18px, 3vw, 58px);
+  padding: 1.5rem clamp(18px, 3vw, 58px);
   background: var(--cds-background);
   border-bottom: 1px solid var(--cds-border-subtle);
 }
-.timeline-toolbar > .toolbar-filters,
-.timeline-toolbar > .toolbar-navigation { min-width: 0; }
-.timeline-toolbar .filter-stripe {
+
+.redesign .timeline-toolbar > .toolbar-filters,
+.redesign .timeline-toolbar > .toolbar-navigation {
+  min-width: 0;
+  min-height: 0;
+  height: auto;
+  max-height: none;
+  align-self: start;
+}
+
+.redesign .timeline-toolbar .filter-stripe {
   display: grid;
-  grid-template-columns: minmax(15rem, 1.25fr) minmax(11rem, 1fr) minmax(14rem, 1.2fr);
+  grid-template-columns: minmax(12rem, 1.25fr) minmax(10rem, 1fr) minmax(12rem, 1.2fr);
   gap: 0.75rem;
   align-items: start;
   width: 100%;
+  height: auto;
   min-height: 0;
+  max-height: none;
   margin: 0;
   padding: 0;
   background: transparent !important;
-  border: none;
-}
-.timeline-toolbar .filter-cell { min-width: 0; align-self: start; }
-.timeline-toolbar .filter-search-label {
-  display: block;
-  margin: 0 0 0.5rem;
-  height: 1rem;
-}
-.timeline-toolbar .cds--search,
-.timeline-toolbar .cds--select,
-.timeline-toolbar .cds--select-input__wrapper,
-.timeline-toolbar .cds--search-input,
-.timeline-toolbar .cds--select-input { width: 100%; min-width: 0; }
-.timeline-toolbar .toolbar-navigation {
-  align-self: end;
-  display: flex;
-  justify-content: flex-end;
-}
-.timeline-toolbar .explorer-top,
-.timeline-toolbar .navigation { display: block; margin: 0; padding: 0; }
-.timeline-toolbar .nav-hint { display: none; }
-.timeline-toolbar .nav-actions { display: flex; flex-wrap: nowrap; gap: 0; }
-.timeline-toolbar .nav-actions .cds--btn { width: 2.5rem; height: 2.5rem; min-height: 2.5rem; }
-html[data-theme='g90'] .timeline-toolbar,
-html[data-theme='g90'] .filter-stripe { background: #161616 !important; }
-html[data-theme='g90'] .timeline-toolbar .cds--search-input,
-html[data-theme='g90'] .timeline-toolbar .cds--select-input { background: #161616 !important; }
-@media (max-width: 1080px) {
-  .timeline-toolbar { grid-template-columns: minmax(0, 1fr); }
-  .timeline-toolbar .toolbar-navigation { justify-content: flex-end; }
-}
-@media (max-width: 700px) {
-  .timeline-toolbar .filter-stripe { grid-template-columns: minmax(0, 1fr); }
+  border: 0;
 }
 
-/* Override legacy .redesign .explorer-top padding that adds an empty
-   100px+ navigation box and drives the buttons to the toolbar bottom. */
-.redesign .timeline-toolbar .toolbar-navigation {
+.redesign .timeline-toolbar .filter-cell {
+  min-width: 0;
   align-self: start;
-  align-items: flex-end;
-  min-height: 4.5rem;
-  padding: 0 !important;
 }
-.redesign .timeline-toolbar .explorer-top {
+
+.redesign .timeline-toolbar .filter-search-label {
+  display: block;
+  height: 1rem;
+  margin: 0 0 0.5rem;
+}
+
+.redesign .timeline-toolbar .cds--search,
+.redesign .timeline-toolbar .cds--select,
+.redesign .timeline-toolbar .cds--select-input__wrapper,
+.redesign .timeline-toolbar .cds--search-input,
+.redesign .timeline-toolbar .cds--select-input {
+  width: 100%;
+  min-width: 0;
+}
+
+.redesign .timeline-toolbar .toolbar-navigation {
   display: flex;
-  padding: 1.5rem 0 0 !important;
-  margin: 0 !important;
-  min-height: 0 !important;
-  align-items: flex-start;
   justify-content: flex-end;
-  gap: 0;
-}
-.redesign .timeline-toolbar .navigation {
-  display: flex;
-  flex-direction: row;
-  padding: 0 !important;
-  margin: 0 !important;
-  min-height: 0 !important;
   align-items: flex-start;
-  gap: 0;
-}
-.redesign .timeline-toolbar .nav-actions { align-items: flex-start; }
-
-/* Carbon spacing-07 (1.5rem) around the compact control row. */
-.redesign .explorer .timeline-toolbar {
-  height: auto;
-  min-height: 0;
-  max-height: none;
-  grid-template-rows: auto;
-  padding-block: 1.5rem;
-  align-items: start;
 }
 
-.redesign .timeline-toolbar .toolbar-filters,
-.redesign .timeline-toolbar .toolbar-navigation,
-.redesign .timeline-toolbar .filter-stripe,
 .redesign .timeline-toolbar .explorer-top,
 .redesign .timeline-toolbar .navigation {
+  display: flex;
   height: auto;
   min-height: 0;
   max-height: none;
+  margin: 0;
+  padding: 0;
 }
 
 .redesign .timeline-toolbar .explorer-top {
-  padding-top: 1.5rem !important;
+  padding-top: 1.5rem;
+  justify-content: flex-end;
 }
 
-/* Dark g90 is a unified background surface, not a raised grey layer. */
-html[data-theme='g90'] .redesign .compact-header {
+.redesign .timeline-toolbar .navigation {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.redesign .timeline-toolbar .nav-hint {
+  display: none;
+}
+
+.redesign .timeline-toolbar .nav-actions {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0;
+}
+
+.redesign .timeline-toolbar .nav-actions .cds--btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  min-height: 2.5rem;
+}
+
+/* A continuous background beneath the Carbon shell (g90 dark / g10 light). */
+.redesign .compact-header {
   background: var(--cds-background) !important;
+}
+
+html[data-theme='g90'] .redesign,
+html[data-theme='g90'] .redesign .compact-header,
+html[data-theme='g90'] .redesign .explorer .timeline-toolbar,
+html[data-theme='g90'] .redesign .timeline-toolbar .filter-stripe,
+html[data-theme='g90'] .redesign .timeline-toolbar .cds--search-input,
+html[data-theme='g90'] .redesign .timeline-toolbar .cds--select-input {
+  background: #161616 !important;
+}
+
+@media (max-width: 1080px) {
+  .redesign .explorer .timeline-toolbar {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 0.5rem;
+  }
+  .redesign .timeline-toolbar .toolbar-navigation {
+    justify-content: flex-end;
+  }
+  .redesign .timeline-toolbar .explorer-top {
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 700px) {
+  .redesign .timeline-toolbar .filter-stripe {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 0.5rem;
+  }
 }
