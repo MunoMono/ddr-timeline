@@ -20,7 +20,6 @@ export default function InteractiveTimeline({
   onSelect: (s: Staff | null) => void
 }) {
   const root = useRef<HTMLDivElement>(null)
-  const exportSvg = useRef<SVGSVGElement>(null)
   const [exportError, setExportError] = useState('')
   const [dimensions, setDimensions] = useState({ w: 1050, h: 610 })
   const [hover, setHover] = useState<Staff | null>(null)
@@ -77,7 +76,7 @@ export default function InteractiveTimeline({
       <TimelineOverview lanes={lanes} start={overviewStart} end={overviewEnd}/>
       <div className="canvas-wrap" ref={root}>
         <svg
-          ref={(node) => { svg.current = node; exportSvg.current = node }}
+          ref={(node) => { svg.current = node; svg.current = node }}
           viewBox={`0 0 ${chartW} ${sceneH}`}
           className="main-canvas"
           role="img"
