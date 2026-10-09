@@ -38,6 +38,18 @@ export function useTimelineZoom(width: number, height: number, periodStart?: num
     else target.transition().duration(700).ease(easeCubicInOut).call(zoomRef.current.transform, transform)
   }, [periodStart, periodEnd, width])
 
+  // Seek the main chart using the overview as a Premiere-style scrubber.
+  // Preserve zoom while centering the selected year; D3 clamps the bounds.
+  function scrubTo(year: number) {
+    if (!svg.current || !zoomRef.current) return
+    const k = Math.max(2.5, view.k)
+    const span = width - 48
+    const fraction = Math.max(0, Math.min(1, (year - 1965) / 21))
+    const x = span * (0.5 - fraction * k)
+    const transform = zoomIdentity.translate(x, 0).scale(k)
+    select(svg.current).interrupt().call(zoomRef.current.transform, transform)
+  }
+
   function navigate(action: TimelineNavAction) {
     if (!svg.current || !zoomRef.current) return
     const target = select(svg.current).transition().duration(320)
@@ -48,5 +60,5 @@ export function useTimelineZoom(width: number, height: number, periodStart?: num
     else target.call(behavior.translateBy, action === 'left' ? 110 : -110, 0)
   }
 
-  return { svg, view, navigate }
+  return { svg, view, navigate, scrubTo }
 }
