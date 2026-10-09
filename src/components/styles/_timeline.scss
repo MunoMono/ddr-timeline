@@ -854,7 +854,7 @@ html[data-theme='g10'] .ddr-app-shell > .cds--header { background: #161616; colo
   transition: fill 150ms ease;
 }
 .redesign .explorer .minimap .minimap-resize-handle:hover,
-.redesign .explorer .minimap.is-scrubbing-left .minimap-resize-handle:first-of-type,
+.redesign .explorer .minimap.is-scrubbing-left .minimap-resize-handle:nth-last-of-type(2),
 .redesign .explorer .minimap.is-scrubbing-right .minimap-resize-handle:last-of-type {
   fill: var(--cds-focus);
 }
