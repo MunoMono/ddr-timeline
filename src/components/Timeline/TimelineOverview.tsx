@@ -2,27 +2,45 @@ import { category, palette, MIN, MAX } from '../../models/employment'
 import type { TimelineLane } from '../../utils/timeline'
 import type { DDRPeriod } from '../../hooks/useDDRPeriods'
 
-
-export default function TimelineOverview({lanes,start,end,periods,selectedPeriod}:{lanes:TimelineLane[];start:number;end:number;periods:DDRPeriod[];selectedPeriod:DDRPeriod|null}) {
-  const percent=(date:number)=>((date-MIN)/(MAX-MIN))*1000
-  return <section className="overview" aria-label="Full period overview">
-    <div className="overview-top">
-      <span>DEPARTMENT OF DESIGN RESEARCH / OVERVIEW</span>
-      <span>{selectedPeriod ? selectedPeriod.start : Math.floor(start)} — {selectedPeriod ? selectedPeriod.end : Math.min(1985,Math.ceil(end))}</span>
-    </div>
-    <div className="minimap">
-      <svg viewBox="0 0 1000 100" preserveAspectRatio="none" role="img" aria-label="Overview of all documented employment periods">
-        {periods.filter(p=>p.slug!=='1965-1985').map(p=><rect key={p.slug} x={percent(p.start)} width={percent(p.end+1)-percent(p.start)} y={0} height={100} fill={selectedPeriod?.slug===p.slug?'var(--cds-highlight)':'var(--cds-layer-accent)'} opacity={selectedPeriod?.slug===p.slug?0.5:0.1}><title>{p.label}: {p.start}–{p.end}</title></rect>)}
-        {lanes.map(d=><rect key={d.person.staff_code} x={percent(Math.max(MIN,d.start))}
-          width={percent(Math.min(MAX,d.end+1))-percent(Math.max(MIN,d.start))}
-          y={13+(d.lane%7)*9} height={5}
-          fill={palette[category(d.person.job_title_label)]} opacity={0.72}/>)}
-        <rect className="minimap-focus" x={percent(start)}
-          width={Math.max(10,percent(end)-percent(start))}
-          y={0} height={100}
-          fill="none" stroke="#ff832b" strokeWidth={2}/>
-      </svg>
-    </div>
-    <div className="minimap-labels"><span>1965</span><span>1970</span><span>1980</span><span>1985</span></div>
-  </section>
+export default function TimelineOverview({ lanes, start, end, selectedPeriod }: {
+  lanes: TimelineLane[]
+  start: number
+  end: number
+  periods: DDRPeriod[]
+  selectedPeriod: DDRPeriod | null
+}) {
+  const x = (year: number) => ((year - MIN) / (MAX - MIN)) * 1000
+  const lo = Math.max(MIN, Math.min(MAX, start))
+  const hi = Math.max(lo, Math.min(MAX, end))
+  const left = x(lo)
+  const right = x(hi)
+  const focusWidth = Math.max(0, right - left)
+  return (
+    <section className="overview" aria-label="Full period overview">
+      <div className="overview-top">
+        <span>DEPARTMENT OF DESIGN RESEARCH / OVERVIEW</span>
+        <span>{selectedPeriod ? selectedPeriod.start : Math.floor(start)} — {selectedPeriod ? selectedPeriod.end : Math.min(1985, Math.ceil(end))}</span>
+      </div>
+      <div className="minimap">
+        <svg viewBox="0 0 1000 100" preserveAspectRatio="none" role="img" aria-label="Overview of documented employment periods">
+          {lanes.map(d => {
+            const from = Math.max(MIN, d.start)
+            const to = Math.min(MAX, d.end + 1)
+            return <rect key={d.person.staff_code} x={x(from)} width={Math.max(0, x(to) - x(from))}
+              y={13 + (d.lane % 7) * 9} height={5}
+              fill={palette[category(d.person.job_title_label)]} opacity={0.72} />
+          })}
+          {focusWidth < 998 && (
+            <rect className="minimap-focus" x={left} width={focusWidth} y={1} height={98}
+              fill="var(--cds-highlight)" fillOpacity={0.24} stroke="none" />
+          )}
+          {lo > MIN && <line x1={left} x2={left} y1={0} y2={100} stroke="var(--cds-focus)" strokeWidth={1.3} />}
+          {hi < MAX && <line x1={right} x2={right} y1={0} y2={100} stroke="var(--cds-focus)" strokeWidth={1.3} />}
+        </svg>
+      </div>
+      <div className="minimap-labels" aria-hidden="true">
+        <span>1965</span><span>1970</span><span>1980</span><span>1985</span>
+      </div>
+    </section>
+  )
 }
