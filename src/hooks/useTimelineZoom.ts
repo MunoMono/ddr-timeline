@@ -22,6 +22,18 @@ export function useTimelineZoom(width: number, height: number) {
     return () => { select(element).on('.zoom', null) }
   }, [width, height])
 
+  /** Snap the viewport to a calendar interval, including its final year. */
+  function snapToRange(start: number, endExclusive: number) {
+    if (!svg.current || !zoomRef.current || endExclusive <= start) return
+    const k = Math.max(1, Math.min(12, 21 / (endExclusive - start)))
+    const plotWidth = width - 48
+    const x = -((start - 1965) / 21) * plotWidth * k
+    select(svg.current).interrupt().call(
+      zoomRef.current.transform,
+      zoomIdentity.translate(x, 0).scale(k),
+    )
+  }
+
   function navigate(action: TimelineNavAction) {
     if (!svg.current || !zoomRef.current) return
     const target = select(svg.current).transition().duration(320)
@@ -32,5 +44,5 @@ export function useTimelineZoom(width: number, height: number) {
     else target.call(behavior.translateBy, action === 'left' ? 110 : -110, 0)
   }
 
-  return { svg, view, navigate }
+  return { svg, view, navigate, snapToRange }
 }
