@@ -157,4 +157,18 @@ test('staff names remain visible when zoomed into the final critical period', as
   })))
   expect(labels.length).toBeGreaterThan(0)
   expect(labels.some(label => label.x >= 26 && label.x < label.width - 22)).toBe(true)
+  // Regression: prove actual names remain painted over visible bars,
+  // not merely that hidden/offscreen text nodes exist in the SVG.
+  const visibleNames = await page.locator('.staff-label-overlay .band-label').evaluateAll(nodes =>
+    nodes.filter(node => {
+      const text = node as SVGTextElement
+      const box = text.getBoundingClientRect()
+      const svgBox = text.ownerSVGElement!.getBoundingClientRect()
+      return Boolean(text.textContent?.trim()) &&
+        box.width > 4 && box.height > 4 &&
+        box.left >= svgBox.left && box.right <= svgBox.right &&
+        box.top >= svgBox.top && box.bottom <= svgBox.bottom
+    }).map(node => node.textContent),
+  )
+  expect(visibleNames.length).toBeGreaterThan(0)
 })
