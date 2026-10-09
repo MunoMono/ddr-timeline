@@ -149,7 +149,7 @@ test('staff names remain visible when zoomed into the final critical period', as
   })
   await page.goto('/')
   await page.locator('#period-select').selectOption('1984-85')
-  await expect(page.getByText(/ZOOM 1000%/)).toBeVisible()
+  await expect(page.getByText(/ZOOM 1050%/)).toBeVisible()
   const labels = await page.locator('.band-label').evaluateAll(nodes => nodes.map(node => ({
     text: node.textContent,
     x: Number(node.getAttribute('x')),
