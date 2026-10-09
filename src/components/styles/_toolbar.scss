@@ -2,12 +2,12 @@
 .redesign .explorer .timeline-toolbar {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  grid-template-rows: min-content;
+  grid-template-rows: 4rem;
   column-gap: 1rem;
   align-items: start;
-  height: auto;
-  min-height: 0;
-  max-height: none;
+  height: 7rem;
+  min-height: 7rem;
+  max-height: 7rem;
   margin: 0;
   padding: 1.5rem clamp(18px, 3vw, 58px);
   background: var(--cds-background);
