@@ -845,3 +845,19 @@ html[data-theme='g10'] .ddr-app-shell > .cds--header { background: #161616; colo
 .redesign .explorer .minimap.is-scrubbing-left svg,
 .redesign .explorer .minimap.is-scrubbing-right svg { cursor: ew-resize; }
 .redesign .explorer .minimap.is-scrubbing-pan svg { cursor: grabbing; }
+
+/* Quiet NLE-style range grips: narrow visible rail, generous JS hit tolerance. */
+.redesign .explorer .minimap .minimap-resize-handle {
+  fill: var(--cds-border-strong);
+  stroke: var(--cds-background);
+  stroke-width: 0.75;
+  transition: fill 150ms ease;
+}
+.redesign .explorer .minimap .minimap-resize-handle:hover,
+.redesign .explorer .minimap.is-scrubbing-left .minimap-resize-handle:first-of-type,
+.redesign .explorer .minimap.is-scrubbing-right .minimap-resize-handle:last-of-type {
+  fill: var(--cds-focus);
+}
+@media (prefers-reduced-motion: reduce) {
+  .redesign .explorer .minimap .minimap-resize-handle { transition: none; }
+}
