@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { select, zoom, zoomIdentity, type ZoomBehavior } from 'd3'
+import { easeCubicInOut, select, zoom, zoomIdentity, type ZoomBehavior } from 'd3'
 
 export type TimelineNavAction = 'in' | 'out' | 'reset' | 'left' | 'right'
 
@@ -31,10 +31,11 @@ export function useTimelineZoom(width: number, height: number, periodStart?: num
     const k = Math.max(1, Math.min(12, 21 / (finish - start)))
     const plotWidth = width - 48
     const x = -((start - 1965) / 21) * plotWidth * k
-    select(svg.current).interrupt().call(
-      zoomRef.current.transform,
-      zoomIdentity.translate(x, 0).scale(k),
-    )
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const target = select(svg.current).interrupt()
+    const transform = zoomIdentity.translate(x, 0).scale(k)
+    if (reduceMotion) target.call(zoomRef.current.transform, transform)
+    else target.transition().duration(700).ease(easeCubicInOut).call(zoomRef.current.transform, transform)
   }, [periodStart, periodEnd, width])
 
   function navigate(action: TimelineNavAction) {
