@@ -43,8 +43,7 @@ export default function App() {
       </Header>
       <main className="redesign">
     <TimelineHeader source={source} count={people.length}/>
-    <StaffFilters search={search} onSearch={setSearch} role={role} onRole={setRole} count={filtered.length} periods={periods} periodStatus={periodStatus} period={period} onPeriod={(slug) => { setPeriod(periods.find(p => p.slug === slug) || null); setSelected(null) }}/>
-    <TimelineCanvas people={filtered} selected={selected} onSelect={setSelected} periods={periods} selectedPeriod={period}/>
+    <TimelineCanvas people={filtered} selected={selected} onSelect={setSelected} periods={periods} selectedPeriod={period} toolbar={<StaffFilters search={search} onSearch={setSearch} role={role} onRole={setRole} count={filtered.length} periods={periods} periodStatus={periodStatus} period={period} onPeriod={(slug) => { setPeriod(periods.find(p => p.slug === slug) || null); setSelected(null) }}/>} />
       </main>
     </div>
   </Theme>

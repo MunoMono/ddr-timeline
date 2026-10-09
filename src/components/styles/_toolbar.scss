@@ -1,0 +1,98 @@
+/* DDR: compact navigation and monochrome g90 surfaces. */
+html[data-theme='g90'] .ddr-app-shell,
+html[data-theme='g90'] .redesign,
+html[data-theme='g90'] .compact-header,
+html[data-theme='g90'] .filter-stripe,
+html[data-theme='g90'] .explorer,
+html[data-theme='g90'] .overview,
+html[data-theme='g90'] .canvas-wrap,
+html[data-theme='g90'] .person-panel,
+html[data-theme='g90'] .minimap {
+  background: #161616 !important;
+}
+
+html[data-theme='g90'] .filter-stripe .cds--search-input,
+html[data-theme='g90'] .filter-stripe .cds--select-input {
+  background: #161616;
+}
+
+.compact-heading h1 {
+  margin-top: 0;
+}
+
+.timeline-toolbar {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  padding: 0.75rem clamp(18px, 3vw, 58px);
+  background: var(--cds-background);
+  border-bottom: 1px solid var(--cds-border-subtle);
+}
+
+.timeline-toolbar .filter-stripe {
+  display: grid;
+  grid-template-columns: minmax(170px, 1.2fr) minmax(150px, 0.85fr) minmax(
+      220px,
+      1.3fr
+    ) auto;
+  gap: 1rem;
+  align-items: end;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent !important;
+}
+
+.timeline-toolbar .find {
+  min-width: 0;
+}
+
+.timeline-toolbar .filter-stripe .cds--select {
+  min-width: 0;
+  width: 100%;
+}
+
+.timeline-toolbar .filter-counter {
+  margin: 0;
+  padding-bottom: 0.65rem;
+}
+
+.timeline-toolbar .explorer-top {
+  padding: 0;
+  flex: 0 0 auto;
+}
+
+.timeline-toolbar .navigation {
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.timeline-toolbar .nav-hint {
+  display: none;
+}
+
+.timeline-toolbar .nav-actions {
+  flex-wrap: nowrap;
+}
+
+@media (max-width: 1150px) {
+  .timeline-toolbar {
+    flex-wrap: wrap;
+  }
+  .timeline-toolbar .filter-stripe {
+    flex-basis: 100%;
+  }
+  .timeline-toolbar .explorer-top {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 680px) {
+  .timeline-toolbar .filter-stripe {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .timeline-toolbar .filter-counter {
+    padding-bottom: 0;
+  }
+}
