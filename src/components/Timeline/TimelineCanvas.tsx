@@ -35,7 +35,7 @@ export default function InteractiveTimeline({
   const laneCount = Math.max(1, ...lanes.map((d) => d.lane + 1))
   const laneH = Math.max(27, Math.min(48, 450 / laneCount))
   const sceneH = Math.max(440, laneCount * laneH + 156)
-  const { svg, view, navigate: act } = useTimelineZoom(chartW, sceneH)
+  const { svg, view, navigate: act } = useTimelineZoom(chartW, sceneH, selectedPeriod?.start, selectedPeriod?.end)
   const left = 26
   const base = scaleLinear()
     .domain([MIN, MAX])
