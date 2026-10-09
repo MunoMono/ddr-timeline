@@ -31,7 +31,7 @@ export function useTimelineZoom(width: number, height: number, periodStart?: num
     const k = Math.max(1, Math.min(12, 21 / (finish - start)))
     const plotWidth = width - 48
     const x = -((start - 1965) / 21) * plotWidth * k
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
     const target = select(svg.current).interrupt()
     const transform = zoomIdentity.translate(x, 0).scale(k)
     if (reduceMotion) target.call(zoomRef.current.transform, transform)
