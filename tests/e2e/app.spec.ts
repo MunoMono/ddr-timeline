@@ -134,3 +134,27 @@ test('staff hover details escape the scrollable timeline and overlay the bands',
   expect(data.tooltip.left).toBeGreaterThanOrEqual(0)
   expect(data.tooltip.right).toBeLessThanOrEqual(1500)
 })
+
+test('staff names remain visible when zoomed into the final critical period', async ({ page }) => {
+  await page.setViewportSize({ width: 1600, height: 900 })
+  await page.route('https://api.ddrarchive.org/graphql', async route => {
+    const body = route.request().postData() ?? ''
+    if (body.includes('ref_ddr_period')) {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+        data: { ref_ddr_period: [{ slug: '1984-85', label: 'Institutional decline', description: null }] },
+      }) })
+    } else {
+      await route.abort()
+    }
+  })
+  await page.goto('/')
+  await page.locator('#period-select').selectOption('1984-85')
+  await expect(page.getByText(/ZOOM 1000%/)).toBeVisible()
+  const labels = await page.locator('.band-label').evaluateAll(nodes => nodes.map(node => ({
+    text: node.textContent,
+    x: Number(node.getAttribute('x')),
+    width: node.ownerSVGElement?.viewBox.baseVal.width ?? 0,
+  })))
+  expect(labels.length).toBeGreaterThan(0)
+  expect(labels.some(label => label.x >= 26 && label.x < label.width - 22)).toBe(true)
+})
