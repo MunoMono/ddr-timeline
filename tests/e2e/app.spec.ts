@@ -109,3 +109,28 @@ test('critical period selection snaps zoom to its inclusive calendar boundaries'
   await page.locator('#period-select').selectOption('')
   await expect(page.getByText(/ZOOM 100%/)).toBeVisible()
 })
+
+test('staff hover details escape the scrollable timeline and overlay the bands', async ({ page }) => {
+  await page.route('https://api.ddrarchive.org/graphql', route => route.abort())
+  await page.setViewportSize({ width: 1500, height: 900 })
+  await page.goto('/')
+  const band = page.locator('.interactive-band').first()
+  await band.scrollIntoViewIfNeeded()
+  await band.hover()
+  const tooltip = page.locator('.staff-record-tooltip')
+  await expect(tooltip).toBeVisible()
+  const data = await tooltip.evaluate(element => {
+    const canvas = document.querySelector('.canvas-wrap')!
+    return {
+      isOutsideCanvas: !canvas.contains(element),
+      position: getComputedStyle(element).position,
+      zIndex: Number(getComputedStyle(element).zIndex),
+      tooltip: element.getBoundingClientRect().toJSON(),
+    }
+  })
+  expect(data.isOutsideCanvas).toBe(true)
+  expect(data.position).toBe('fixed')
+  expect(data.zIndex).toBeGreaterThan(100)
+  expect(data.tooltip.left).toBeGreaterThanOrEqual(0)
+  expect(data.tooltip.right).toBeLessThanOrEqual(1500)
+})
