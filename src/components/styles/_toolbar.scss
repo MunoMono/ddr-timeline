@@ -1,98 +1,125 @@
-/* DDR: compact navigation and monochrome g90 surfaces. */
-html[data-theme='g90'] .ddr-app-shell,
-html[data-theme='g90'] .redesign,
-html[data-theme='g90'] .compact-header,
-html[data-theme='g90'] .filter-stripe,
-html[data-theme='g90'] .explorer,
-html[data-theme='g90'] .overview,
-html[data-theme='g90'] .canvas-wrap,
-html[data-theme='g90'] .person-panel,
-html[data-theme='g90'] .minimap {
-  background: #161616 !important;
-}
-
-html[data-theme='g90'] .filter-stripe .cds--search-input,
-html[data-theme='g90'] .filter-stripe .cds--select-input {
-  background: #161616;
-}
-
-.compact-heading h1 {
-  margin-top: 0;
-}
-
-.timeline-toolbar {
-  display: flex;
-  align-items: flex-end;
-  gap: 1rem;
-  padding: 0.75rem clamp(18px, 3vw, 58px);
+/* Carbon's 16-column grid governs the single compact control strip. */
+.timeline-toolbar.cds--grid {
+  display: grid;
+  grid-template-columns: repeat(16, minmax(0, 1fr));
+  align-items: end;
+  gap: 0;
+  margin: 0;
+  padding: 0.5rem clamp(18px, 3vw, 58px);
   background: var(--cds-background);
   border-bottom: 1px solid var(--cds-border-subtle);
 }
 
-.timeline-toolbar .filter-stripe {
-  display: grid;
-  grid-template-columns: minmax(170px, 1.2fr) minmax(150px, 0.85fr) minmax(
-      220px,
-      1.3fr
-    ) auto;
-  gap: 1rem;
-  align-items: end;
-  flex: 1 1 auto;
+.timeline-toolbar > .toolbar-filters,
+.timeline-toolbar > .toolbar-navigation {
   min-width: 0;
   padding: 0;
-  border: 0;
+}
+
+.timeline-toolbar .filter-stripe.cds--grid {
+  display: grid;
+  grid-template-columns: repeat(16, minmax(0, 1fr));
+  align-items: end;
+  gap: 0;
+  margin: 0;
+  padding: 0;
   background: transparent !important;
+  border: 0;
 }
 
-.timeline-toolbar .find {
+.timeline-toolbar .filter-cell {
   min-width: 0;
+  padding-inline: 0.375rem;
 }
 
-.timeline-toolbar .filter-stripe .cds--select {
+.timeline-toolbar .filter-count-cell {
+  padding: 0 0.375rem 0.625rem;
   min-width: 0;
-  width: 100%;
+  align-self: end;
 }
 
 .timeline-toolbar .filter-counter {
+  display: block;
   margin: 0;
-  padding-bottom: 0.65rem;
+  padding: 0;
+  font-size: 0.625rem;
+  white-space: nowrap;
+}
+
+.timeline-toolbar .filter-search-label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.timeline-toolbar .cds--search,
+.timeline-toolbar .cds--select,
+.timeline-toolbar .cds--select-input__wrapper,
+.timeline-toolbar .cds--search-input,
+.timeline-toolbar .cds--select-input {
+  width: 100%;
+  min-width: 0;
+}
+
+.timeline-toolbar .find { flex: none; min-width: 0; }
+
+.timeline-toolbar .toolbar-navigation {
+  display: flex;
+  justify-content: flex-end;
+  align-items: end;
 }
 
 .timeline-toolbar .explorer-top {
   padding: 0;
-  flex: 0 0 auto;
+  margin: 0;
+  display: block;
 }
 
 .timeline-toolbar .navigation {
-  flex-direction: row;
-  align-items: flex-end;
+  display: block;
+  padding: 0;
 }
 
-.timeline-toolbar .nav-hint {
-  display: none;
+.timeline-toolbar .nav-hint { display: none; }
+.timeline-toolbar .nav-actions { display: flex; flex-wrap: nowrap; gap: 0; }
+
+.timeline-toolbar .nav-actions .cds--btn {
+  width: 3rem;
+  height: 3rem;
+  min-height: 3rem;
 }
 
-.timeline-toolbar .nav-actions {
-  flex-wrap: nowrap;
+html[data-theme='g90'] .ddr-app-shell,
+html[data-theme='g90'] .redesign,
+html[data-theme='g90'] .compact-header,
+html[data-theme='g90'] .explorer,
+html[data-theme='g90'] .overview,
+html[data-theme='g90'] .canvas-wrap,
+html[data-theme='g90'] .minimap,
+html[data-theme='g90'] .person-panel {
+  background: #161616 !important;
 }
 
-@media (max-width: 1150px) {
-  .timeline-toolbar {
-    flex-wrap: wrap;
+html[data-theme='g90'] .timeline-toolbar .cds--search-input,
+html[data-theme='g90'] .timeline-toolbar .cds--select-input {
+  background: #161616;
+}
+
+@media (max-width: 1300px) {
+  .timeline-toolbar.cds--grid {
+    row-gap: 0.25rem;
   }
-  .timeline-toolbar .filter-stripe {
-    flex-basis: 100%;
-  }
-  .timeline-toolbar .explorer-top {
-    margin-left: auto;
+  .timeline-toolbar > .toolbar-filters,
+  .timeline-toolbar > .toolbar-navigation {
+    grid-column: 1 / -1;
   }
 }
 
-@media (max-width: 680px) {
-  .timeline-toolbar .filter-stripe {
-    grid-template-columns: minmax(0, 1fr);
+@media (max-width: 670px) {
+  .timeline-toolbar .filter-stripe.cds--grid {
+    row-gap: 0.5rem;
   }
-  .timeline-toolbar .filter-counter {
-    padding-bottom: 0;
+  .timeline-toolbar .filter-cell,
+  .timeline-toolbar .filter-count-cell {
+    grid-column: 1 / -1;
   }
 }
