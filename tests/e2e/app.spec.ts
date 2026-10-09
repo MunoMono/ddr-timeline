@@ -172,3 +172,25 @@ test('staff names remain visible when zoomed into the final critical period', as
   )
   expect(visibleNames.length).toBeGreaterThan(0)
 })
+
+test('overview drag scrubs the timeline and lane rules are horizontal', async ({ page }) => {
+  await page.route('https://api.ddrarchive.org/graphql', route => route.abort())
+  await page.setViewportSize({ width: 1600, height: 900 })
+  await page.goto('/')
+  const overview = page.getByRole('slider', { name: 'Scrub the historical timeline' })
+  await expect(overview).toHaveCSS('cursor', 'grab')
+  const box = await overview.boundingBox()
+  expect(box).not.toBeNull()
+  if (!box) return
+  await page.mouse.move(box.x + box.width * 0.3, box.y + box.height / 2)
+  await page.mouse.down()
+  await expect(overview).toHaveCSS('cursor', 'grabbing')
+  await page.mouse.move(box.x + box.width * 0.7, box.y + box.height / 2, { steps: 8 })
+  await page.mouse.up()
+  await expect(overview).toHaveCSS('cursor', 'grab')
+  await expect(page.getByText(/ZOOM 250%/)).toBeVisible()
+  const first = await page.locator('.main-canvas line').evaluateAll(lines =>
+    lines.filter(line => line.getAttribute('y1') === line.getAttribute('y2')).length
+  )
+  expect(first).toBeGreaterThan(0)
+})
