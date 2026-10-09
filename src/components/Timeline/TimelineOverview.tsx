@@ -29,7 +29,7 @@ export default function TimelineOverview({ lanes, start, end, selectedPeriod, on
     const tolerance = 15 / Math.max(1, pixelsPerYear)
     const mode = Math.abs(year - lo) <= tolerance ? 'left'
       : Math.abs(year - hi) <= tolerance ? 'right'
-      : year >= lo && year <= hi ? 'pan' : 'seek'
+      : focusWidth < 998 && year >= lo && year <= hi ? 'pan' : 'seek'
     dragRef.current = { mode, pointerX: year, start: lo, end: hi }
     setDragging(mode)
     event.currentTarget.setPointerCapture(event.pointerId)
@@ -68,7 +68,7 @@ export default function TimelineOverview({ lanes, start, end, selectedPeriod, on
     <section className="overview" aria-label="Full period overview">
       <div className="overview-top">
         <span>DEPARTMENT OF DESIGN RESEARCH / OVERVIEW</span>
-        <span>{selectedPeriod ? selectedPeriod.start : Math.floor(start)} — {selectedPeriod ? selectedPeriod.end : Math.min(1985, Math.ceil(end))}</span>
+        <span>{lo.toFixed(1)} — {Math.min(1985, hi).toFixed(1)}</span>
       </div>
       <div className={dragging ? "minimap is-scrubbing is-scrubbing-" + dragging : "minimap"}>
         <svg ref={scrubRef} viewBox="0 0 1000 100" preserveAspectRatio="none"
