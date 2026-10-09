@@ -1,8 +1,9 @@
 import { category, palette, MIN, MAX } from '../../models/employment'
 import type { TimelineLane } from '../../utils/timeline'
+import type { DDRPeriod } from '../../hooks/useDDRPeriods'
 
 
-export default function TimelineOverview({lanes,start,end}:{lanes:TimelineLane[];start:number;end:number}) {
+export default function TimelineOverview({lanes,start,end,periods,selectedPeriod}:{lanes:TimelineLane[];start:number;end:number;periods:DDRPeriod[];selectedPeriod:DDRPeriod|null}) {
   const percent=(date:number)=>((date-MIN)/(MAX-MIN))*1000
   return <section className="overview" aria-label="Full period overview">
     <div className="overview-top">
@@ -11,6 +12,7 @@ export default function TimelineOverview({lanes,start,end}:{lanes:TimelineLane[]
     </div>
     <div className="minimap">
       <svg viewBox="0 0 1000 100" preserveAspectRatio="none" role="img" aria-label="Overview of all documented employment periods">
+        {periods.filter(p=>p.slug!=='1965-1985').map(p=><rect key={p.slug} x={percent(p.start)} width={percent(p.end+1)-percent(p.start)} y={0} height={100} fill={selectedPeriod?.slug===p.slug?'var(--cds-highlight)':'var(--cds-layer-accent)'} opacity={selectedPeriod?.slug===p.slug?0.5:0.1}><title>{p.label}: {p.start}–{p.end}</title></rect>)}
         {lanes.map(d=><rect key={d.person.staff_code} x={percent(Math.max(MIN,d.start))}
           width={percent(Math.min(MAX,d.end+1))-percent(Math.max(MIN,d.start))}
           y={13+(d.lane%7)*9} height={5}
