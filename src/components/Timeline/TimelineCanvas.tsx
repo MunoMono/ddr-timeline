@@ -1,3 +1,4 @@
+import { createPortal } from 'react-dom'
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { scaleLinear } from 'd3'
 import { useTimelineZoom } from '../../hooks/useTimelineZoom'
@@ -65,12 +66,10 @@ export default function InteractiveTimeline({
   const overviewStart = Math.max(MIN, scale.invert(left))
   const overviewEnd = Math.min(MAX, scale.invert(chartW - 22))
   const moveTooltip = (clientX: number, clientY: number) => {
-    if (!root.current) return
-    const bounds = root.current.getBoundingClientRect()
-    const x = Math.max(170, Math.min(bounds.width - 170, clientX - bounds.left))
-    const y = Math.max(12, clientY - bounds.top - 12)
-    root.current.style.setProperty('--staff-tooltip-x', x + 'px')
-    root.current.style.setProperty('--staff-tooltip-y', y + 'px')
+    const x = Math.max(205, Math.min(window.innerWidth - 205, clientX))
+    const y = clientY + 315 < window.innerHeight ? clientY + 12 : Math.max(12, clientY - 315)
+    document.documentElement.style.setProperty('--staff-tooltip-x', x + 'px')
+    document.documentElement.style.setProperty('--staff-tooltip-y', y + 'px')
   }
   const overlappingTenures = (staff: Staff) => people.filter(
     person => person.staff_code !== staff.staff_code &&
@@ -232,7 +231,7 @@ export default function InteractiveTimeline({
             </g>
           )}
         </svg>
-        {hover && (
+        {hover && createPortal(
           <div className="floating-tip staff-record-tooltip" role="tooltip" aria-label={`Documented staff details for ${hover.agent_name}`}>
             <span>DOCUMENTED STAFF / {hover.staff_code}</span>
             <strong>{hover.agent_name}</strong>
@@ -244,7 +243,8 @@ export default function InteractiveTimeline({
               <div><dt>Record identifier</dt><dd>{hover.staff_code}</dd></div>
             </dl>
             <p className="tooltip-caveat">Date overlap indicates co-presence, not collaboration. Descriptions containing “later” do not establish a transition date.</p>
-          </div>
+          </div>,
+          document.querySelector('.redesign') ?? document.body,
         )}
       </div>
       {selectedPeriod && <p className="timeline-period-note">Slice: {selectedPeriod.label} ({selectedPeriod.start}–{selectedPeriod.end}). Showing staff whose documented tenure overlaps this interpretative period; overlap does not establish participation in any particular activity.</p>}
